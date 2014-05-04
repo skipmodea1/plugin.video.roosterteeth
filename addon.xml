@@ -2,7 +2,7 @@
 <addon id="plugin.video.roosterteeth"
        name="Rooster Teeth"
        version="0.0.7"
-       provider-name="Skipmode A1">
+       provider-name="Divingmule, Skipmode A1">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
     <import addon="script.module.beautifulsoup4" version="4.3.1"/>

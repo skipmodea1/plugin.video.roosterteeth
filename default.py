@@ -422,6 +422,7 @@ def add_dir(name, url, mode, iconimage, meta={}, season=False, isfolder=True):
 
 def check_login():
     logged_in = False
+# commenting from here will fix need to delete cookiefile when watching sponsored videos?    
     cookies = {}
     cookie_jar.load(cookie_file, ignore_discard=False, ignore_expires=False)
     for i in cookie_jar:
@@ -429,6 +430,7 @@ def check_login():
     if cookies.has_key('rtusername') and cookies['rtusername'] == addon.getSetting('username'):
         logged_in = True
         addon_log('Already logged in')
+# commenting to here will fix need to delete cookiefile when watching sponsored videos?    
     return logged_in
 
 
