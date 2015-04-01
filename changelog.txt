@@ -1,3 +1,8 @@
+Version 0.1.2
+Switched from LWPCookieJar to MozillaCookieJar due to bug on android
+Always delete cookie file
+Small changes in logging
+
 Version 0.1.1
 Changes due to website changes
 

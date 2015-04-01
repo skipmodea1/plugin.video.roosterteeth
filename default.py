@@ -28,7 +28,7 @@ icon = addon.getAddonInfo('icon')
 fanart = addon.getAddonInfo('fanart')
 language = addon.getLocalizedString
 cookie_file = os.path.join(addon_profile, 'cookie_file')
-cookie_jar = cookielib.LWPCookieJar(cookie_file)
+cookie_jar = cookielib.MozillaCookieJar(cookie_file)
 base = 'http://roosterteeth.com'
 debug = addon.getSetting('debug')
 
@@ -36,16 +36,16 @@ __addon__       = "plugin.video.roosterteeth"
 __settings__    = xbmcaddon.Addon(id=__addon__ )
 __language__    = __settings__.getLocalizedString
 __images_path__ = os.path.join( xbmcaddon.Addon(id=__addon__ ).getAddonInfo('path'), 'resources', 'images' )
-__date__        = "11 November 2014"
-__version__     = "0.1.1"
+__date__        = "1 april 2015 (no joke!)"
+__version__     = "0.1.2"
 
 def addon_log(string):
     try:
         log_message = string.encode('utf-8', 'ignore')
     except:
         log_message = 'addonException: addon_log'
-    xbmc.log("[%s-%s]: %s" %(addon_id, addon_version, log_message),level=xbmc.LOGDEBUG)
-
+    if (debug) == 'true':  
+        xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s, %s " % ( __addon__, __version__, __date__, "ARGV", repr(sys.argv), log_message ), xbmc.LOGNOTICE )  
 
 def notify(message):
     xbmc.executebuiltin("XBMC.Notification(%s, %s, 10000, %s)" %(language(30001), message, icon))
@@ -104,8 +104,6 @@ def get_soup(data):
 #Patch for python <= 2.7.2 (windows: xbmc 12 and older, OS: current xbmc (xbmc 14) and older))
 def mangle_html(data):
     print 'Python Version: ' + sys.version
-    if (debug) == 'true':
-        xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s, %s " % ( __addon__, __version__, __date__, "ARGV", repr(sys.argv), "mangling html!" ), xbmc.LOGNOTICE )
 #    print "DEBUG info, str(data) before mangling it:" + str(data)
     data = re.sub(r'</scri["\']', '', data)
     data = re.sub(r"<scrip'", "", data)
@@ -134,8 +132,7 @@ def cache_active_rt_shows():
     soup = get_soup(rt_url)
     items = soup('table', class_="border boxBorder")[0].table('tr')
     
-    if (debug) == 'true':
-        xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s, %s = %s" % ( __addon__, __version__, __date__, "ARGV", repr(sys.argv), "len(items)", str(len(items)) ), xbmc.LOGNOTICE )
+    addon_log('%s %s' % ("len(items)", str(len(items))))
     
     return filter_items(items)
 
@@ -336,21 +333,21 @@ def get_blip_location(blip_url):
                 except:
                     return [i['url'] for i in items if 'Source' in i['type']][0]
         except IndexError:
-            addon_log('Preffered setting not found')
+            addon_log('Prefered setting not found')
     elif preferred_quality == '1':
         try:
             url = [i['@url'] for i in media_content if
                    'Blip SD' in i['@blip:role'] or 'web' in i['@blip:role']][0]
             return url
         except IndexError:
-            addon_log('Preffered setting not found')
+            addon_log('Prefered setting not found')
     elif preferred_quality == '2':
         try:
             url = [i['@url'] for i in media_content if
                    'Blip LD' in i['@blip:role'] or 'Portable' in i['@blip:role']][0]
             return url
         except IndexError:
-            addon_log('Preffered setting not found')
+            addon_log('Prefered setting not found')
     elif preferred_quality == '3':
         try:
             dialog = xbmcgui.Dialog()
@@ -433,7 +430,7 @@ def resolve_url(item_id, retry=False):
             if filetype == 'youtube':
                 youtube_id = soup.iframe['src'].split('/')[-1].split('?')[0]
                 addon_log('youtube id:' + youtube_id)
-                path = 'plugin://plugin.video.youtube/?action=play_video&videoid=%s' %youtube_id
+                path = 'plugin://plugin.video.youtube/play/?video_id=%s' %youtube_id
             elif filetype == 'blip':
                 blip_url = soup.iframe['src']
                 addon_log('blip_url: ' + blip_url)
@@ -463,8 +460,7 @@ def resolve_url(item_id, retry=False):
 def resolve_url_youtube_bliptv(item_id):
     url = 'http://roosterteeth.com/archive/?id=%s' %item_id
     
-    if (debug) == 'true':
-        xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s, %s = %s" % ( __addon__, __version__, __date__, "ARGV", repr(sys.argv), "url1", str(url) ), xbmc.LOGNOTICE )
+    addon_log('%s %s' % ("url1", str(url)))
     
     data = make_request(url)
     data = str(data)    
@@ -486,11 +482,10 @@ def resolve_url_youtube_bliptv(item_id):
         start_pos_youtubeid = start_pos_youtubeid + len ("http://www.youtube.com/embed/")
         end_pos_youtubeid = data.find("?",start_pos_youtubeid + 1)
         youtubeid = str(data[start_pos_youtubeid:end_pos_youtubeid])
-        path = 'plugin://plugin.video.youtube/?action=play_video&videoid=%s' %youtubeid
+        path = 'plugin://plugin.video.youtube/play/?video_id=%s' %youtubeid
    
-    if (debug) == 'true':
-        xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s, %s = %s" % ( __addon__, __version__, __date__, "ARGV", repr(sys.argv), "path1", str(path) ), xbmc.LOGNOTICE )
-        
+    addon_log('%s %s' % ("path1", str(path)))
+       
     return path
 
 
@@ -517,8 +512,7 @@ def resolve_url_cloudfront(item_id):
 
     url = 'http://roosterteeth.com/archive/?id=%s' %item_id
     
-    if (debug) == 'true':
-        xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s, %s = %s" % ( __addon__, __version__, __date__, "ARGV", repr(sys.argv), "url2", str(url) ), xbmc.LOGNOTICE )
+    addon_log('%s %s' % ("url2", str(url)))
     
     data = make_request(url)
      
@@ -559,9 +553,8 @@ def resolve_url_cloudfront(item_id):
         else: 
             path = string_480p_file
         
-    if (debug) == 'true':
-        xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s, %s = %s" % ( __addon__, __version__, __date__, "ARGV", repr(sys.argv), "path2", str(path) ), xbmc.LOGNOTICE )
-        
+    addon_log('%s %s' % ("path2", str(path)))
+       
     return path
 
                 
@@ -726,9 +719,16 @@ try:
 except:
     mode = None
 
-if (debug) == 'true':
-    xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s, %s = %s" % ( __addon__, __version__, __date__, "ARGV", repr(sys.argv), "mode!", str(mode) ), xbmc.LOGNOTICE )
-    
+# if there is a cookie file, delete it (this is done because of the switch to a different cookiejar in april 2015/.) 
+if xbmcvfs.exists(cookie_file):  
+    try:
+#       delete the cookie file     
+        os.remove(cookie_file)
+    except:
+        addon_log('remove of cookie file failed: %s' %cookie_file)
+        pass    
+
+addon_log('%s %s' % ("mode!", str(mode)))
 
 addon_log(repr(params))
 
