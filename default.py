@@ -719,7 +719,7 @@ try:
 except:
     mode = None
 
-# if there is a cookie file, delete it (this is done because of the switch to a different cookiejar in april 2015/.) 
+# if there is a cookie file, delete it (this is done because of the switch to a different cookiejar in april 2015) 
 if xbmcvfs.exists(cookie_file):  
     try:
 #       delete the cookie file     
