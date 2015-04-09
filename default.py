@@ -723,15 +723,16 @@ def set_view_mode():
         return
     xbmc.executebuiltin('Container.SetViewMode(%s)' %view_modes[view_mode])
 
+
 if addon.getSetting('password') == '': 
     pass
 # convert the password in settings.xml to password in password storage
 else:    
-    # blank the password in addon data \ settings.xml
     username = addon.getSetting('username')
     addon_log('converting password user: %s' %username)
-    passwordStorage.delete(username)
+#   store the password in the password storage
     passwordStorage.store(username, addon.getSetting('password'))
+#   blank the password in addon data \ settings.xml
     addon.setSetting('password', '') 
 
 
@@ -771,6 +772,7 @@ else:
     addon_log('%s %s' % ("mode!", str(mode)))
     
     addon_log(repr(params))
+    
     
     if mode == None:
         # display main plugin dir
