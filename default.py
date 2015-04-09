@@ -5,6 +5,7 @@ import re
 import os
 import json
 import time
+import sys
 from datetime import datetime
 from urlparse import urlparse, parse_qs
 from traceback import format_exc
@@ -18,8 +19,10 @@ import xbmcgui
 import xbmcaddon
 import xbmcvfs
 
+import passwordStorage
+
 cache = StorageServer.StorageServer("roosterteeth", 6)
-addon = xbmcaddon.Addon()
+addon = xbmcaddon.Addon('plugin.video.roosterteeth')
 addon_profile = xbmc.translatePath(addon.getAddonInfo('profile'))
 addon_version = addon.getAddonInfo('version')
 addon_id = addon.getAddonInfo('id')
@@ -36,8 +39,8 @@ __addon__       = "plugin.video.roosterteeth"
 __settings__    = xbmcaddon.Addon(id=__addon__ )
 __language__    = __settings__.getLocalizedString
 __images_path__ = os.path.join( xbmcaddon.Addon(id=__addon__ ).getAddonInfo('path'), 'resources', 'images' )
-__date__        = "1 april 2015 (no joke!)"
-__version__     = "0.1.2"
+__date__        = "9 april 2015"
+__version__     = "1.0.0"
 
 def addon_log(string):
     try:
@@ -94,7 +97,7 @@ def get_soup(data):
 #           Let's try again            
             try:
                 bs = BeautifulSoup(data, 'html.parser')
-#          :( giving up!
+#           :( giving up!
             except:
                 bs = "Parse Error" 
         return bs
@@ -305,7 +308,7 @@ def get_blip_location(blip_url):
     try:
         blip_dict = xmltodict.parse(make_request(blip_xml))
         items = blip_dict['rss']['channel']['item']['media:group'][u'media:content']
-        # if only one result items will be a dict
+ #      if only one result items will be a dict
         if isinstance(items, dict):
             try:
                 return items['@url']
@@ -676,20 +679,33 @@ def check_login():
 def login():
     url = 'https://roosterteeth.com/members/signinPost.php'
     username = addon.getSetting('username')
-    login_data = {'pass': addon.getSetting('password'),
+  
+    msg = "Enter the password for %s:" % username
+    password = passwordStorage.retrieve(username,ask_msg=msg)
+    
+    login_data = {'pass': password,
                   'user': username,
                   'return': '/sponsor/'}
     data = make_request(url, urllib.urlencode(login_data))
     soup = get_soup(data)
+    
     if soup == "Parse Error":
-# let's guess that the user is logged in, so the user doesn't get a confusing not-logged-in-error-message
-       return True
+        addon_log('Parse Error in login') 
+#       let's guess that the user is logged in, so the user doesn't get a confusing not-logged-in-error-message
+        return True
     else:
         logged_in_tag = soup.find('span', attrs={'id': 'signedInName'})
         if logged_in_tag and username in str(logged_in_tag):
             addon_log('Logged in successfully')
+#           store the password 
+            passwordStorage.store(username, password)
             return True
         else:
+            addon_log('Logged in failure')
+#           delete the password so in a retry the user is able to enter a working password            
+            passwordStorage.delete(username)
+            xbmcgui.Dialog().ok( __language__(30000), __language__(30032), __language__(30033))
+            sys.exit()
             return False
 
 
@@ -707,132 +723,156 @@ def set_view_mode():
         return
     xbmc.executebuiltin('Container.SetViewMode(%s)' %view_modes[view_mode])
 
+if addon.getSetting('password') == '': 
+    pass
+# convert the password in settings.xml to password in password storage
+else:    
+    # blank the password in addon data \ settings.xml
+    username = addon.getSetting('username')
+    addon_log('converting password user: %s' %username)
+    passwordStorage.delete(username)
+    passwordStorage.store(username, addon.getSetting('password'))
+    addon.setSetting('password', '') 
 
-# check if dir exists, needed to save cookies to file
-if not xbmcvfs.exists(addon_profile):
-    xbmcvfs.mkdir(addon_profile)
 
-params = get_params()
-
-try:
-    mode = int(params['mode'])
-except:
-    mode = None
-
-# if there is a cookie file, delete it (this is done because of the switch to a different cookiejar in april 2015) 
-if xbmcvfs.exists(cookie_file):  
+# if the delete password button pressed in the settings
+if sys.argv[-1] == 'delete_password':
+    username = addon.getSetting('username')
     try:
-#       delete the cookie file     
-        os.remove(cookie_file)
+        addon_log('trying to delete password for user: %s' %username)
+#       delete the password in the password storage
+        passwordStorage.delete(username)
+#       let's assume the password is deleted (either by the delete or that is wasn't there in the first place)        
+        xbmcgui.Dialog().ok( __language__(30000), __language__(30030))
     except:
-        addon_log('remove of cookie file failed: %s' %cookie_file)
-        pass    
-
-addon_log('%s %s' % ("mode!", str(mode)))
-
-addon_log(repr(params))
-
-if mode == None:
-    # display main plugin dir
-    print 'Python Version: ' + sys.version
-    add_dir(language(30008), 'get_latest_rt', 8, icon)
-    add_dir(language(30027), 'get_latest_ah', 9, icon)
-    add_dir(language(30005), 'get_podcasts', 4, icon)
-        
-    act_rt_shows = cache_active_rt_shows()
-    act_ah_shows = cache_active_ah_shows()
-
-#   mix the shows     
-    act_shows = []
-    while True:
-        try:
-            act_shows.append(act_rt_shows.pop(0))
-            act_shows.append(act_ah_shows.pop(0))
-        except IndexError:
-            break
-
-#   add any remaining shows at the end  
-    act_shows = act_shows + act_rt_shows + act_ah_shows
+        addon_log('password NOT deleted for user: %s' %username)
+        xbmcgui.Dialog().ok( __language__(30000), __language__(30031))
+else:
+#   check if dir exists, needed to save cookies to file
+    if not xbmcvfs.exists(addon_profile):
+        xbmcvfs.mkdir(addon_profile)
     
-    get_shows(act_shows)
-    add_dir(language(30007), 'get_retired_shows', 7, icon)
-    xbmcplugin.setContent(int(sys.argv[1]), 'tvshows')
-    xbmcplugin.endOfDirectory(int(sys.argv[1]))
-
-elif mode == 1:
-    # display show, if seasons, else episodes
-    soup = get_soup(params['url'])
-    seasons = get_seasons(soup, params['iconimage'])
-    if seasons:
+    params = get_params()
+    
+    try:
+        mode = int(params['mode'])
+    except:
+        mode = None
+    
+#   if there is a cookie file, delete it (this is done because of the switch to a different cookiejar in april 2015) 
+    if xbmcvfs.exists(cookie_file):  
+        try:
+#           delete the cookie file     
+            os.remove(cookie_file)
+        except:
+            addon_log('remove of cookie file failed: %s' %cookie_file)
+            pass    
+    
+    addon_log('%s %s' % ("mode!", str(mode)))
+    
+    addon_log(repr(params))
+    
+    if mode == None:
+        # display main plugin dir
+        print 'Python Version: ' + sys.version
+        add_dir(language(30008), 'get_latest_rt', 8, icon)
+        add_dir(language(30027), 'get_latest_ah', 9, icon)
+        add_dir(language(30005), 'get_podcasts', 4, icon)
+            
+        act_rt_shows = cache_active_rt_shows()
+        act_ah_shows = cache_active_ah_shows()
+    
+#       mix the shows     
+        act_shows = []
+        while True:
+            try:
+                act_shows.append(act_rt_shows.pop(0))
+                act_shows.append(act_ah_shows.pop(0))
+            except IndexError:
+                break
+    
+#       add any remaining shows at the end  
+        act_shows = act_shows + act_rt_shows + act_ah_shows
+        
+        get_shows(act_shows)
+        add_dir(language(30007), 'get_retired_shows', 7, icon)
         xbmcplugin.setContent(int(sys.argv[1]), 'tvshows')
-    else:
-        index(soup, False)
-        set_view_mode()
+        xbmcplugin.endOfDirectory(int(sys.argv[1]))
+    
+    elif mode == 1:
+#       display show, if seasons, else episodes
+        soup = get_soup(params['url'])
+        seasons = get_seasons(soup, params['iconimage'])
+        if seasons:
+            xbmcplugin.setContent(int(sys.argv[1]), 'tvshows')
+        else:
+            index(soup, False)
+            set_view_mode()
+            xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
+        xbmcplugin.endOfDirectory(int(sys.argv[1]))
+    
+    elif mode == 2:
+#       display show episodes
+        soup = get_soup(params['url'])
+        index(soup, params['season'])
         xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
-    xbmcplugin.endOfDirectory(int(sys.argv[1]))
-
-elif mode == 2:
-    # display show episodes
-    soup = get_soup(params['url'])
-    index(soup, params['season'])
-    xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
-    set_view_mode()
-    xbmcplugin.endOfDirectory(int(sys.argv[1]))
-
-elif mode == 3:
-    # resolve show episode
-    set_resolved_url(resolve_url(params['url']))
+        set_view_mode()
+        xbmcplugin.endOfDirectory(int(sys.argv[1]))
     
-elif mode == 4:
-    # display podcast dir
-    get_podcasts()
-    xbmcplugin.setContent(int(sys.argv[1]), 'tvshows')
-    xbmcplugin.endOfDirectory(int(sys.argv[1]))
-
-elif mode == 5:
-    # display podcast episodes
-    get_podcasts_episodes(params['url'], params['iconimage'])
-    xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
-    set_view_mode()
-    xbmcplugin.endOfDirectory(int(sys.argv[1]))
-
-elif mode == 6:
-    # resolve podcast episode
-    set_resolved_url(resolve_podcast_url(params['url']))
-
-elif mode == 7:
-    # display retired shows
-    ret_rt_shows = cache_retired_rt_shows()
-    ret_ah_shows = cache_retired_ah_shows()
-
-#   mix the shows     
-    ret_shows = []
-    while True:
-        try:
-            ret_shows.append(ret_rt_shows.pop(0))
-            ret_shows.append(ret_ah_shows.pop(0))
-        except IndexError:
-            break
+    elif mode == 3:
+#       resolve show episode
+        set_resolved_url(resolve_url(params['url']))
         
-#   add any remaining shows at the end  
-    ret_shows = ret_shows + ret_rt_shows + ret_ah_shows
- 
-    get_shows(ret_shows)
-    xbmcplugin.setContent(int(sys.argv[1]), 'tvshows')
-    xbmcplugin.endOfDirectory(int(sys.argv[1]))
-
-elif mode == 8:
-    # display latest RT episodes
-    soup = get_soup('http://roosterteeth.com/archive/?v=newest')
-    index(soup, False)
-    xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
-    set_view_mode()
-    xbmcplugin.endOfDirectory(int(sys.argv[1]))
+    elif mode == 4:
+#       display podcast dir
+        get_podcasts()
+        xbmcplugin.setContent(int(sys.argv[1]), 'tvshows')
+        xbmcplugin.endOfDirectory(int(sys.argv[1]))
     
-elif mode == 9:
-    # display latest AH episodes
-    soup = get_soup('http://ah.roosterteeth.com/archive/?v=newest')
-    index(soup, False)
-    xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
-    set_view_mode()
-    xbmcplugin.endOfDirectory(int(sys.argv[1]))    
+    elif mode == 5:
+#       display podcast episodes
+        get_podcasts_episodes(params['url'], params['iconimage'])
+        xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
+        set_view_mode()
+        xbmcplugin.endOfDirectory(int(sys.argv[1]))
+    
+    elif mode == 6:
+#       resolve podcast episode
+        set_resolved_url(resolve_podcast_url(params['url']))
+    
+    elif mode == 7:
+#       display retired shows
+        ret_rt_shows = cache_retired_rt_shows()
+        ret_ah_shows = cache_retired_ah_shows()
+    
+#       mix the shows     
+        ret_shows = []
+        while True:
+            try:
+                ret_shows.append(ret_rt_shows.pop(0))
+                ret_shows.append(ret_ah_shows.pop(0))
+            except IndexError:
+                break
+            
+#       add any remaining shows at the end  
+        ret_shows = ret_shows + ret_rt_shows + ret_ah_shows
+     
+        get_shows(ret_shows)
+        xbmcplugin.setContent(int(sys.argv[1]), 'tvshows')
+        xbmcplugin.endOfDirectory(int(sys.argv[1]))
+    
+    elif mode == 8:
+#       display latest RT episodes
+        soup = get_soup('http://roosterteeth.com/archive/?v=newest')
+        index(soup, False)
+        xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
+        set_view_mode()
+        xbmcplugin.endOfDirectory(int(sys.argv[1]))
+        
+    elif mode == 9:
+#       display latest AH episodes
+        soup = get_soup('http://ah.roosterteeth.com/archive/?v=newest')
+        index(soup, False)
+        xbmcplugin.setContent(int(sys.argv[1]), 'episodes')
+        set_view_mode()
+        xbmcplugin.endOfDirectory(int(sys.argv[1]))    

@@ -1,4 +1,8 @@
-Version 0.1.2
+Version 1.0.0
+The password is stored encrypted now (thanks to JBu92 for the suggestion and ruuk for the password storage script)
+If there's a password in settings.xml, it will be converted to the password in password storage (the password in settings.xml will be blanked).
+If the user wants to view a sponsored video and the username/password doesn't work, the user will be asked to type in the correct password. If the userid/password works, the password will be stored encrypted
+Added a button in settings to force the removal of the password from password storage
 Switched from LWPCookieJar to MozillaCookieJar due to bug on android
 Always delete cookie file
 Small changes in logging
