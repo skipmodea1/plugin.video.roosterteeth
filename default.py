@@ -19,7 +19,7 @@ import xbmcgui
 import xbmcaddon
 import xbmcvfs
 
-import passwordStorage
+import keyring
 
 cache = StorageServer.StorageServer("roosterteeth", 6)
 addon = xbmcaddon.Addon('plugin.video.roosterteeth')
@@ -34,6 +34,7 @@ cookie_file = os.path.join(addon_profile, 'cookie_file')
 cookie_jar = cookielib.MozillaCookieJar(cookie_file)
 base = 'http://roosterteeth.com'
 debug = addon.getSetting('debug')
+service = "kodi roosterteeth video add-on"
 
 __addon__       = "plugin.video.roosterteeth"
 __settings__    = xbmcaddon.Addon(id=__addon__ )
@@ -680,9 +681,20 @@ def login():
     url = 'https://roosterteeth.com/members/signinPost.php'
     username = addon.getSetting('username')
   
-    msg = "Enter the password for %s:" % username
-    password = passwordStorage.retrieve(username,ask_msg=msg)
-    
+    password = keyring.get_password(service, username)
+    if password == None:
+        password_in_keyring = False
+        msg = "Enter the password for %s:" % username
+        key = xbmc.Keyboard('',msg,True)
+        key.doModal()
+        password = key.getText()
+        if password == "":
+            xbmcgui.Dialog().ok( __language__(30000), __language__(30034), __language__(30033))
+            sys.exit()
+            return False
+    else:
+        password_in_keyring = True
+                
     login_data = {'pass': password,
                   'user': username,
                   'return': '/sponsor/'}
@@ -698,12 +710,15 @@ def login():
         if logged_in_tag and username in str(logged_in_tag):
             addon_log('Logged in successfully')
 #           store the password 
-            passwordStorage.store(username, password)
+            keyring.set_password(service, username, password)
+            password = None
             return True
         else:
+            password = None
             addon_log('Logged in failure')
-#           delete the password so in a retry the user is able to enter a working password            
-            passwordStorage.delete(username)
+#           delete the password if there's one in the keyring. So in a retry the user is able to enter a different (and hopefully correct) password   
+            if password_in_keyring:
+                keyring.delete_password(service, username)   
             xbmcgui.Dialog().ok( __language__(30000), __language__(30032), __language__(30033))
             sys.exit()
             return False
@@ -731,7 +746,7 @@ else:
     username = addon.getSetting('username')
     addon_log('converting password user: %s' %username)
 #   store the password in the password storage
-    passwordStorage.store(username, addon.getSetting('password'))
+    keyring.set_password(service, username, addon.getSetting('password'))
 #   blank the password in addon data \ settings.xml
     addon.setSetting('password', '') 
 
@@ -742,7 +757,7 @@ if sys.argv[-1] == 'delete_password':
     try:
         addon_log('trying to delete password for user: %s' %username)
 #       delete the password in the password storage
-        passwordStorage.delete(username)
+        keyring.delete_password(service, username)
 #       let's assume the password is deleted (either by the delete or that is wasn't there in the first place)        
         xbmcgui.Dialog().ok( __language__(30000), __language__(30030))
     except:
