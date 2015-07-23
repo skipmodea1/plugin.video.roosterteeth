@@ -14,6 +14,9 @@ import xbmcaddon
 import xbmcgui
 import xbmcplugin
 
+reload(sys)  
+sys.setdefaultencoding('utf8')
+
 #
 # Main class
 #
@@ -52,9 +55,10 @@ class Main:
 		# 
 		# Get HTML page
 		#
-		
- 		html_source = requests.get(self.video_list_page_url).text
-
+		response = requests.get(self.video_list_page_url)
+ 		html_source = response.text
+		html_source = html_source.encode('utf-8', 'ignore')
+	
 		# Parse response
 		soup = BeautifulSoup( html_source )
 		

@@ -34,6 +34,9 @@ import xbmcaddon
 import xbmcgui
 import xbmcplugin
 
+reload(sys)  
+sys.setdefaultencoding('utf8')
+
 LIB_DIR = xbmc.translatePath( os.path.join( xbmcaddon.Addon(id=__addon__).getAddonInfo('path'), 'resources', 'lib' ) )
 sys.path.append (LIB_DIR)
 

@@ -14,6 +14,9 @@ import xbmcaddon
 import xbmcgui
 import xbmcplugin
 
+reload(sys)  
+sys.setdefaultencoding('utf8')
+
 BASEURL = 'http://www.roosterteeth.com/show/'
 
 #
@@ -29,7 +32,9 @@ class Main:
         # 
         # Get HTML page...
         #
-        html_source = requests.get(BASEURL).text
+        response = requests.get(BASEURL)
+        html_source = response.text
+        html_source = html_source.encode('utf-8', 'ignore')
 
 #       <li>
 #         <a href="http://www.roosterteeth.com/show/red-vs-blue">
@@ -67,7 +72,7 @@ class Main:
                 try:
                     title = show.img['alt']
                 except:
-                    title = 'Unknown Show'
+                    title = 'Unknown Show Name'
             
             # Add to list...
             parameters = {"action" : "list", "show_name" : title, "show_url" : url, "next_page_possible": "False"}

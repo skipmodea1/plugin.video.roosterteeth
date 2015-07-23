@@ -17,6 +17,9 @@ import xbmcgui
 import xbmcplugin
 import this
 
+reload(sys)  
+sys.setdefaultencoding('utf8')
+
 #
 # Main class
 #
@@ -163,6 +166,7 @@ class Main:
 				try:
 					response = requests.get(m3u8_url) 
 			 		html_source = response.text
+		 			html_source = html_source.encode('utf-8', 'ignore')
 				except urllib2.HTTPError, error:
 					if (self.DEBUG) == 'true':
 						xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s" % ( __addon__, __version__, __date__, "HTTPError", str(error) ), xbmc.LOGNOTICE )
