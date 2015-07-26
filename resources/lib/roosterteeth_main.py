@@ -60,6 +60,11 @@ class Main:
             if str(show.a).find(BASEURL) < 0:
                 continue
             
+            # Skip a show if it does not contain class="name"
+            pos_classname = str(show).find('class="name"')
+            if pos_classname < 0:
+                continue
+            
             url = show.a['href']
             
             try:
