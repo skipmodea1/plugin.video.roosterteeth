@@ -103,7 +103,7 @@ class Main:
 				if after_tab_episodes == False:
 					continue
 			
-			# Skip if the recently-added url
+			# Skip the recently-added url
  			if str(episode).find('recently-added') >= 0:
  				continue
 			

@@ -378,12 +378,15 @@ class Main:
 							video_url = str(html_source)[begin_pos_playlist:end_pos_playlist]
 							have_valid_url = True								
 
-				#failsafe for when if the m3u8 content wasn't what was expected 
-				if video_url == '':
-					have_valid_url = False			
-
 				if (self.DEBUG) == 'true':
 					xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s" % ( __addon__, __version__, __date__, "blip playlist video_url", str(video_url) ), xbmc.LOGNOTICE )
+				
+				#last ditch effort when m3u8 content wasn't quite what i expected 
+				if video_url == '':
+					video_url = m3u8_url	
+					have_valid_url = True			
+					if (self.DEBUG) == 'true':
+						xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s" % ( __addon__, __version__, __date__, "corrected blip playlist video_url", str(video_url) ), xbmc.LOGNOTICE )
 		
 		if have_valid_url:
 			pass
