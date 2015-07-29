@@ -17,6 +17,8 @@ import xbmcplugin
 reload(sys)  
 sys.setdefaultencoding('utf8')
 
+RECENTLYADDEDURL = 'http://roosterteeth.com/episode/recently-added'
+
 #
 # Main class
 #
@@ -32,8 +34,7 @@ class Main:
 			xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s, %s = %s" % ( __addon__, __version__, __date__, "ARGV", repr(sys.argv), "File", str(__file__) ), xbmc.LOGNOTICE )
 
 		# Parse parameters
-		#self.plugin_category = urlparse.parse_qs(urlparse.urlparse(sys.argv[2]).query)['plugin_category'][0]
-		self.video_list_page_url = urlparse.parse_qs(urlparse.urlparse(sys.argv[2]).query)['show_url'][0]
+		self.video_list_page_url = urlparse.parse_qs(urlparse.urlparse(sys.argv[2]).query)['url'][0]
 		self.next_page_possible = urlparse.parse_qs(urlparse.urlparse(sys.argv[2]).query)['next_page_possible'][0]
 	
 		if (self.DEBUG) == 'true':
@@ -51,8 +52,9 @@ class Main:
 		#
 		# Init
 		#
-		#pos_in_html_source = 0
 		previous_video_page_url = ''
+		after_tab_trending = False
+		after_tab_episodes = False
 		# 
 		# Get HTML page
 		#
@@ -63,13 +65,6 @@ class Main:
 		# Parse response
 		soup = BeautifulSoup( html_source )
 		
-		pos_of_recently_added_videos = str(html_source).find('Recently Added Videos')
-		xbmc.log('pos of recently added videos' + str(pos_of_recently_added_videos))
-		pos_of_all_time_favorites = str(html_source).find('All-Time Favorites')
-		xbmc.log('pos of All-Time Favorites' + str(pos_of_all_time_favorites))
-		pos_of_episodes = str(html_source).find('tab-episodes')
-		xbmc.log('pos of episodes' + str(pos_of_episodes))
-
 		#<li>
 		#	<a href="http://ah.roosterteeth.com/episode/red-vs-blue-season-13-episode-2">
 		# 			<div class="block-container">
@@ -93,17 +88,25 @@ class Main:
 		if (self.DEBUG) == 'true':
 			xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s" % ( __addon__, __version__, __date__, "len(episodes)", str(len(episodes)) ), xbmc.LOGNOTICE )
 		
-		#pos_in_url = 0
-		
 		for episode in episodes:
+			#Only display episodes of a season
+			#The recently added page doesn't have a 'tab-episode'
+			if str(self.video_list_page_url) == RECENTLYADDEDURL:
+				pass
+			else:
+				#Only display episodes of a season
+				#<li>
+				#<input type='radio' name='tabs' id='tab-episodes' />
+				if str(episode).find("tab-episodes") >= 0:
+					after_tab_episodes = True
+				# Skip if the episode isn't a season episode
+				if after_tab_episodes == False:
+					continue
+			
 			# Skip if the recently-added url
  			if str(episode).find('recently-added') >= 0:
  				continue
-# 				xbmc.log('h3 found')
-# 				if str(episode).find('Recently Added Videos') >= 0:
-# 					xbmc.log('Recently Added Videos found')
-# 				continue
-# 			
+			
 			# Skip an episode if it does not contain class="name"
 			pos_classname = str(episode).find('class="name"')
 			if pos_classname == -1:
@@ -123,96 +126,6 @@ class Main:
 				continue
 			else:
 				previous_video_page_url = video_page_url
-			
-#  			xbmc.log('video_page_url' + str(video_page_url))
-#  			#video_page_url = str(video_page_url).replace('www.','') 
-# 			#xbmc.log('video_page_url altered' + str(video_page_url))
-# 
-#  			#pos_of_url = str(html_source).find(str(video_page_url), pos_in_html_source)
-#  			xbmc.log('pos of html source' + str(pos_in_html_source))
-#  			pos_of_url = str(html_source).find(str(video_page_url), pos_in_html_source)
-#  			xbmc.log('pos of url' + str(pos_of_url))
-#  			
-#  			if pos_of_url == -1:
-#  				continue
-# #  				xbmc.log('zzz' + html_source[pos_in_html_source:])
-# #  				sys.exit()
-# #  				pos_in_html_source = pos_in_html_source + 1
-# #  				continue
-#  			
-#  			if pos_of_url >= pos_of_episodes:
-#  				pos_in_html_source = pos_of_url
-#  				pos_in_html_source = pos_in_html_source + 1
-#  				xbmc.log('pos html:' + str(pos_in_html_source))
-#  				pass
-#  			else:
-#  				pos_in_html_source = pos_of_url
-#  				pos_in_html_source = pos_in_html_source + 1
-#  				continue
-
-# 				xbmc.log( "aaaa" + str(html_source) )
-#  				sys.exit()
-#  				continue
-# 				xbmc.log('stopping!')
-#  				sys.exit()
-			
-# 			if pos_of_url >= pos_of_episodes:
-# 				pos_of_url = pos_in_url + 1
-# 				xbmc.log('new' + str(pos_in_url))
-# 				pos_in_html_source = pos_in_url
-# 				xbmc.log('new pos in html source:' + str(pos_in_html_source))
-# 				pass
-# 			#elif pos_of_url >= pos_of_recently_added_videos and pos_of_url <= pos_of_all_time_favorites:
-# 			elif pos_of_url >= pos_of_recently_added_videos:			
-# 		  		pos_of_url = pos_in_url + 1
-# 	 			#pos_in_html_source = pos_in_url
-# 	 		 	xbmc.log('neww pos in html source:' + str(pos_in_html_source))
-#  			 	pass
-#  			else:
-#  				continue
- 					
-#  			if pos_of_url == -1:
-# 	 			video_page_url = str(video_page_url).replace('www.','') 
-# 				xbmc.log('video_page_url altered' + str(video_page_url))	
-# 	  			pos_of_url = str(html_source).find(str(video_page_url), pos_in_html_source)
-# 	  			if pos_of_url == -1:
-# 		  			xbmc.log('stopping!')
-#   					sys.exit()
-#   				else:
-#   					xbmc.log('stopping for now')
-#   					sys.exit()	
-# #   				xbmc.log('skipping1')
-# #   				xbmc.log('pos_in_html_source:' + str(pos_in_html_source))
-# #   				continue
-#   			else:
-#   				if pos_of_url < pos_of_recently_added_videos:
-#   					xbmc.log('skipping2')
-#   					continue
-#   				else:
-#  			  		pos_in_html_source = pos_of_url + 1
- 			
- 			#sys.exit()
- 				
-# 			pos_of_url = str(html_source).find(video_page_url, pos_in_html_source)
-# 			xbmc.log('pos of url' + str(pos_of_url))
-# 			if pos_of_url == -1:
-# 				#if no url was found, retry search without 'www.' in the video_page_url
-# 				video_page_url = str(video_page_url).replace('www.','')
-# 				xbmc.log('retry video_page_url' + str(video_page_url))
-# 				pos_of_url = str(html_source).find(video_page_url, pos_in_html_source)
-# 				xbmc.log('retry pos of url' + str(pos_of_url))
-# 				#xbmc.log('zzzzzzzzzz' + html_source[pos_in_html_source:])
-# 				if pos_of_url >= 0:
-# 					pos_in_html_source = pos_of_url + 1 
-# 			else:
-# 				#set the pos_in_html_source further than the just found pos_in_url
-# 				pos_in_html_source = pos_of_url + 1 
-# 				
-# 			xbmc.log('pos of html_source' + str(html_source))
-# 			
-# 			# Skip an episode if it does not come after tab-episodes
-# 			if pos_of_url < pos_of_episodes:
-# 				continue
 			
 			try:
 				thumbnail_url = "https:" + episode.img['src']
@@ -279,8 +192,6 @@ class Main:
 			listitem.setInfo( "video", { "Title" : title, "Studio" : "roosterteeth" } )
 			folder = False
 			xbmcplugin.addDirectoryItem( handle = int(sys.argv[ 1 ] ), url = url, listitem=listitem, isFolder=folder)
-  		
-#		xbmc.log('zzzzzzzzz' + str(html_source))
 		
 		# Disable sorting...
 		xbmcplugin.addSortMethod( handle=int( sys.argv[ 1 ] ), sortMethod=xbmcplugin.SORT_METHOD_NONE )

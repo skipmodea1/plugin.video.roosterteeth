@@ -43,7 +43,6 @@ class Main:
 		
 		if (self.DEBUG) == 'true':
 			xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s" % ( __addon__, __version__, __date__, "self.video_page_url", str(self.video_page_url) ), xbmc.LOGNOTICE )
-
 		#
 		# Play video...
 		#
@@ -74,7 +73,7 @@ class Main:
 		# Show wait dialog while parsing data...
 		#
 		dialogWait = xbmcgui.DialogProgress()
-		dialogWait.create( __language__(30504), title )
+		dialogWait.create( __language__(30100), title )
 		
 		try:
 			if self.IS_SPONSOR == 'true':
@@ -120,12 +119,12 @@ class Main:
 						else:
 							dialogWait.close()
 							del dialogWait
-							xbmcgui.Dialog().ok( __language__(30000), __language__(30508), __language__(30509), __language__(30510) )
+							xbmcgui.Dialog().ok( __language__(30000), __language__(30101), __language__(30102), __language__(30103) )
 							exit(1)
 					else:
 						dialogWait.close()
 						del dialogWait
-						xbmcgui.Dialog().ok( __language__(30000), __language__(30511) % (str(r.status_code)) )
+						xbmcgui.Dialog().ok( __language__(30000), __language__(30104) % (str(r.status_code)) )
 						exit(1)
 					
 					# f.e. a sponsored_url = "http://roosterteeth.com/episode/rt-sponsor-cut-season-2-rt-life-jeremys-frosting-facial"
@@ -145,7 +144,7 @@ class Main:
 					if str(r.text).find('sponsor-only') >= 0:
 						dialogWait.close()
 						del dialogWait
-						xbmcgui.Dialog().ok( __language__(30000), __language__(30003) )
+						xbmcgui.Dialog().ok( __language__(30000), __language__(30105) )
 						exit(1)	
 			 	 	html_source = r.text
 			 		html_source = html_source.encode('utf-8', 'ignore')
@@ -154,7 +153,7 @@ class Main:
 				xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s" % ( __addon__, __version__, __date__, "HTTPError", str(error) ), xbmc.LOGNOTICE )
 			dialogWait.close()
 			del dialogWait
-			xbmcgui.Dialog().ok( __language__(30000), __language__(30507) % (str(error) ))
+			xbmcgui.Dialog().ok( __language__(30000), __language__(30106) % (str(error) ))
 			exit(1)
 
 		soup = BeautifulSoup(html_source)
@@ -251,7 +250,7 @@ class Main:
 						xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s" % ( __addon__, __version__, __date__, "HTTPError", str(error) ), xbmc.LOGNOTICE )
 					dialogWait.close()
 					del dialogWait
-					xbmcgui.Dialog().ok( __language__(30000), __language__(30507) % (str(error) ))
+					xbmcgui.Dialog().ok( __language__(30000), __language__(30106) % (str(error) ))
 					exit(1)
 				
 				#Very High quality
@@ -379,6 +378,10 @@ class Main:
 							video_url = str(html_source)[begin_pos_playlist:end_pos_playlist]
 							have_valid_url = True								
 
+				#failsafe for when if the m3u8 content wasn't what was expected 
+				if video_url == '':
+					have_valid_url = False			
+
 				if (self.DEBUG) == 'true':
 					xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s" % ( __addon__, __version__, __date__, "blip playlist video_url", str(video_url) ), xbmc.LOGNOTICE )
 		
@@ -468,9 +471,9 @@ class Main:
 		# Alert user
 		#
 	 	elif no_url_found:
-			xbmcgui.Dialog().ok( __language__(30000), __language__(30505))
+			xbmcgui.Dialog().ok( __language__(30000), __language__(30107))
 		elif unplayable_media_file:
-			xbmcgui.Dialog().ok( __language__(30000), __language__(30506))
+			xbmcgui.Dialog().ok( __language__(30000), __language__(30108))
 	
 #
 # The End

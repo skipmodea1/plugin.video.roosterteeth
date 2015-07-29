@@ -1,5 +1,8 @@
-Version 1.1.2 (26 july 2015)
+Version 1.2.0 (29 july 2015)
 Added support for sponsored videos
+Added Achievement Hunter
+Added The Know Tv
+Added Fun Haus
 Removed some duplicate shows
 
 Version 1.1.1 (24 july 2015)

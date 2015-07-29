@@ -18,8 +18,8 @@
 #
 #also in ..._const
 __addon__       = "plugin.video.roosterteeth"
-__date__        = "26 July 2015"
-__version__     = "1.1.2"
+__date__        = "29 July 2015"
+__version__     = "1.2.0"
 
 #
 # Imports
@@ -56,8 +56,13 @@ else:
     #
     # List
     #
-    if action == 'list':
-        import roosterteeth_list as plugin
+    if action == 'list-episodes':
+        import roosterteeth_list_episodes as plugin
+    #
+    # List Shows
+    #
+    if action == 'list-shows':
+        import roosterteeth_list_shows as plugin
     #
     # Play
     #
