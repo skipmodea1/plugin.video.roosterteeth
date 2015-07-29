@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
   <category label="General">
-    <setting id="quality" 		type="enum" label="30009" lvalues="30010|30011|30012" 							default="0"/>
+    <setting id="quality" 		type="enum" label="30009" lvalues="30513|30010|30011|30012" 					default="1"/>
 <!--     <setting id="view_mode" 	type="enum" label="30017" lvalues="30018|30019|30020|30021|30022|30023|30024" 	default="4"/> -->
     <setting id="is_sponsor" 	type="bool" label="30014" 														default="false"/>
     <setting id="username" 		type="text" label="30015" 														default="" 							enable="eq(-1,true)"/>

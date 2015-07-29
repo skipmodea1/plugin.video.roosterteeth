@@ -17,7 +17,11 @@ import xbmcplugin
 reload(sys)  
 sys.setdefaultencoding('utf8')
 
-BASEURL = 'http://www.roosterteeth.com/show/'
+RECENTLYADDEDURL = 'http://roosterteeth.com/episode/recently-added'
+ROOSTERTEETHSHOWSURL = 'http://www.roosterteeth.com/show/'
+ACHIEVEMENTHUNTERURL = 'http://achievementhunter.com/show/'
+THEKNOWSHOWSURL = 'http://theknow.tv/show'
+FUNHAUSSHOWSURL = 'http://fun.haus/show'
 
 #
 # Main class
@@ -29,10 +33,24 @@ class Main:
         #
         self.DEBUG     = __settings__.getSetting('debug')
         
+        #
+        # Adding Recently Added Page
+        #
+        url = RECENTLYADDEDURL
+        thumbnail_url = ''
+        title = __language__(30512)
+        # Add it to list...
+        parameters = {"action" : "list", "show_name" : title, "show_url" : url, "next_page_possible": "False"}
+        url = sys.argv[0] + '?' + urllib.urlencode(parameters)
+        listitem = xbmcgui.ListItem( title, iconImage="DefaultVideo.png", thumbnailImage=thumbnail_url )
+        listitem.setInfo( "video", { "Title" : title, "Studio" : "roosterteeth" } )
+        folder = True
+        xbmcplugin.addDirectoryItem( handle = int(sys.argv[ 1 ] ), url = url, listitem=listitem, isFolder=folder)
+        
         # 
         # Get HTML page...
         #
-        response = requests.get(BASEURL)
+        response = requests.get(ROOSTERTEETHSHOWSURL)
         html_source = response.text
         html_source = html_source.encode('utf-8', 'ignore')
 
@@ -56,8 +74,8 @@ class Main:
             xbmc.log( "[ADDON] %s v%s (%s) debug mode, %s = %s" % ( __addon__, __version__, __date__, "len(shows)", str(len(shows)) ), xbmc.LOGNOTICE )
         
         for show in shows:
-            #skip show if it doesn't contain BASEURL
-            if str(show.a).find(BASEURL) < 0:
+            #skip show if it doesn't contain ROOSTERTEETHSHOWSURL
+            if str(show.a).find(ROOSTERTEETHSHOWSURL) < 0:
                 continue
             
             # Skip a show if it does not contain class="name"
