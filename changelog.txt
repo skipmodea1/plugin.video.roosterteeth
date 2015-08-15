@@ -1,3 +1,7 @@
+Version 1.2.1 (15 august 2015)
+Added some utf-8 stuff
+Updated youtube dependency version
+
 Version 1.2.0 (29 july 2015)
 Added support for sponsored videos
 Added Achievement Hunter
