@@ -21,8 +21,8 @@
 #
 #also in ..._const
 __addon__       = "plugin.video.roosterteeth"
-__date__        = "15 august 2015"
-__version__     = "1.2.1"
+__date__        = "22 august 2015"
+__version__     = "1.2.2"
 
 #
 # Imports

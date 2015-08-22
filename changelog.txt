@@ -1,3 +1,7 @@
+Version 1.2.2 (22 august 2015)
+Site switched to https (except recently-added)
+Removed Fun Haus (doesn't work atm)
+
 Version 1.2.1 (15 august 2015)
 Added some utf-8 stuff
 Updated youtube dependency version

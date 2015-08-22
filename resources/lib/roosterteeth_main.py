@@ -18,10 +18,10 @@ import xbmcgui
 import xbmcplugin
 
 RECENTLYADDEDURL = 'http://roosterteeth.com/episode/recently-added'
-ROOSTERTEETHSHOWSURL = 'http://www.roosterteeth.com/show/'
-ACHIEVEMENTHUNTERURL = 'http://achievementhunter.com/show/'
-THEKNOWSHOWSURL = 'http://theknow.tv/show'
-FUNHAUSSHOWSURL = 'http://fun.haus/show'
+ROOSTERTEETHSHOWSURL = 'https://www.roosterteeth.com/show/'
+ACHIEVEMENTHUNTERURL = 'https://achievementhunter.com/show/'
+THEKNOWSHOWSURL = 'https://theknow.tv/show'
+FUNHAUSSHOWSURL = 'https://fun.haus/show'
 
 #
 # Main class
@@ -63,11 +63,11 @@ class Main:
         #
         # Fun Haus
         #
-        parameters = {"action" : "list-shows", "plugin_category" : __language__(30004), "url" : FUNHAUSSHOWSURL, "next_page_possible": "False"}
-        url = sys.argv[0] + '?' + urllib.urlencode(parameters)
-        listitem = xbmcgui.ListItem( __language__(30004), iconImage="DefaultFolder.png" )
-        folder = True
-        xbmcplugin.addDirectoryItem( handle = int(sys.argv[ 1 ] ), url = url, listitem=listitem, isFolder=folder)                        
+#         parameters = {"action" : "list-shows", "plugin_category" : __language__(30004), "url" : FUNHAUSSHOWSURL, "next_page_possible": "False"}
+#         url = sys.argv[0] + '?' + urllib.urlencode(parameters)
+#         listitem = xbmcgui.ListItem( __language__(30004), iconImage="DefaultFolder.png" )
+#         folder = True
+#         xbmcplugin.addDirectoryItem( handle = int(sys.argv[ 1 ] ), url = url, listitem=listitem, isFolder=folder)                        
            
         # Disable sorting...
         xbmcplugin.addSortMethod( handle=int( sys.argv[ 1 ] ), sortMethod=xbmcplugin.SORT_METHOD_NONE )
