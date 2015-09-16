@@ -271,6 +271,15 @@ class Main:
 
 			search_for_string = "manifest: '"
 			begin_pos_search_for_blip = str(html_source).find(search_for_string)
+			if begin_pos_search_for_blip < 0:
+				#if nothings found, let's try and search for something else 	
+				search_for_string = "file: '"
+				begin_pos_search_for_blip = str(html_source).find(search_for_string)
+				if begin_pos_search_for_blip < 0:
+					#if nothings found, let's try and search for something else 	
+					search_for_string = "file : '"
+					begin_pos_search_for_blip = str(html_source).find(search_for_string)
+					
 			if begin_pos_search_for_blip >= 0:
 				begin_pos_m3u8_url = begin_pos_search_for_blip + len(search_for_string)
 				blip_video = True
