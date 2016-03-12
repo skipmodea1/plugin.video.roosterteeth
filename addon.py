@@ -32,7 +32,6 @@ if len(sys.argv[2]) == 0:
     # Main menu
     #
     if DEBUG == 'true':
-        xbmc.log("[ADDON] %s, Python Version %s" % (ADDON, str(sys.version)), xbmc.LOGNOTICE)
         xbmc.log("[ADDON] %s v%s (%s) is starting, ARGV = %s" % (ADDON, VERSION, DATE, repr(sys.argv)),
                  xbmc.LOGNOTICE)
     import roosterteeth_main as plugin
