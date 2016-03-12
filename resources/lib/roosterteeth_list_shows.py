@@ -4,7 +4,10 @@
 #
 # Imports
 #
+<<<<<<< HEAD
 import os
+=======
+>>>>>>> origin/master
 import requests
 import sys
 import urllib
