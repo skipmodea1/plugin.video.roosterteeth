@@ -4,6 +4,7 @@
 #
 # Imports
 #
+import os
 import requests
 import sys
 import urllib
@@ -97,7 +98,7 @@ class Main:
                             str(self.video_list_page_url)), xbmc.LOGNOTICE)
                         xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
                             ADDON, VERSION, DATE, "skipped show that doesn't contain website show url",
-                            str(self.video_list_page_url_http)), xbmc.LOGNOTICE)
+                            str(video_list_page_url_http)), xbmc.LOGNOTICE)
                         xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
                             ADDON, VERSION, DATE, "skipped show that doesn't contain website show url",
                             str(show)), xbmc.LOGNOTICE)
