@@ -129,10 +129,9 @@ class Main:
 
             # Add to list...
             list_item = xbmcgui.ListItem(label=title, thumbnailImage=thumbnail_url)
-            list_item.setInfo("video", {"title": title, "studio": ADDON})
             list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
                               'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
-            list_item.setProperty('IsPlayable', 'true')
+            list_item.setProperty('IsPlayable', 'false')
             parameters = {"action": "list-episodes", "show_name": title, "url": url, "next_page_possible": "False", "title": title}
             url = self.plugin_url + '?' + urllib.urlencode(parameters)
             is_folder = True

@@ -11,5 +11,5 @@ ADDON = "plugin.video.roosterteeth"
 SETTINGS = xbmcaddon.Addon(id=ADDON)
 LANGUAGE = SETTINGS.getLocalizedString
 IMAGES_PATH = os.path.join(xbmcaddon.Addon(id=ADDON).getAddonInfo('path'), 'resources', 'images')
-DATE = "SNAPSHOT"
-VERSION = "1.2.9"
+DATE = "2016-05-11"
+VERSION = "1.3.0"
