@@ -20,6 +20,7 @@ LOGINURL_RT = 'http://roosterteeth.com/login'
 LOGINURL_AH = 'http://achievementhunter.com/login'
 LOGINURL_FH = 'http://fun.haus/login'
 LOGINURL_TK = 'http://theknow.tv/login'
+LOGINURL_SA = 'http://screwattack.roosterteeth.com/login'
 NEWHLS = 'NewHLS-'
 VQ1080P = '1080P'
 VQ720P = '720P'
@@ -113,6 +114,8 @@ class Main:
                             reply = session.get(LOGINURL_FH)
                         elif 'theknow.tv' in reply.url:
                             reply = session.get(LOGINURL_TK)
+                        elif 'screwattack' in reply.url:
+                            reply = session.get(LOGINURL_SA)
                         else:
                             reply = session.get(LOGINURL_RT)
 
