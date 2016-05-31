@@ -149,6 +149,8 @@ class Main:
                             reply = session.post(LOGINURL_FH, data=payload)
                         elif 'theknow.tv' in reply.url: # TK Login
                             reply = session.post(LOGINURL_TK, data=payload)
+                        elif 'screwattack' in reply.url:  # SA Login
+                            reply = session.post(LOGINURL_SA, data=payload)
                         else: # RT Login
                             reply = session.post(LOGINURL_RT, data=payload)
 
