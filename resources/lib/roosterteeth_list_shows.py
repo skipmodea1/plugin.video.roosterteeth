@@ -104,38 +104,7 @@ class Main:
                 ADDON, VERSION, DATE, "len(shows)", str(len(shows))), xbmc.LOGNOTICE)
 
         for show in shows:
-            video_list_page_url_http = str(self.video_list_page_url).replace("https", "http")
-            video_list_page_url_https = str(self.video_list_page_url).replace("http", "https")
-
-            # skip show if it doesn't contain the website show url (https or http)
-            if str(video_list_page_url_http).find(RECENTLYADDEDURL) < 0:
-                if str(video_list_page_url_https).find(RECENTLYADDEDURL) < 0:
-                    if str(video_list_page_url_http).find(ROOSTERTEETHSHOWSURL) < 0:
-                        if str(video_list_page_url_https).find(ROOSTERTEETHSHOWSURL) < 0:
-                            if str(video_list_page_url_http).find(ACHIEVEMENTHUNTERURL) < 0:
-                                if str(video_list_page_url_https).find(ACHIEVEMENTHUNTERURL) < 0:
-                                    if str(video_list_page_url_http).find(THEKNOWSHOWSURL) < 0:
-                                        if str(video_list_page_url_https).find(THEKNOWSHOWSURL) < 0:
-                                            if str(video_list_page_url_http).find(FUNHAUSSHOWSURL) < 0:
-                                                if str(video_list_page_url_https).find(FUNHAUSSHOWSURL) < 0:
-                                                    if str(video_list_page_url_http).find(SCREWATTACKURL) < 0:
-                                                        if str(video_list_page_url_https).find(SCREWATTACKURL) < 0:
-                                                            if self.DEBUG == 'true':
-                                                                xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
-                                                                    ADDON, VERSION, DATE,
-                                                                    "skipped show that doesn't contain website show url",
-                                                                    str(video_list_page_url_http)), xbmc.LOGNOTICE)
-                                                                xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
-                                                                    ADDON, VERSION, DATE,
-                                                                    "skipped show that doesn't contain website show url",
-                                                                    str(video_list_page_url_https)), xbmc.LOGNOTICE)
-                                                                xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
-                                                                    ADDON, VERSION, DATE,
-                                                                    "skipped show that doesn't contain website show url",
-                                                                    str(show)), xbmc.LOGNOTICE)
-                                                            continue
-
-            # skip show if it contains the website show url (https or http)
+            # Skip the show if it contains /episode/
             # <li class="upcoming-featured">
             #         <a href="http://roosterteeth.com/episode/ahwu-2016-memorial-day-ahwu-for-may-30-th-2016-319">
             #             <div class="block-container">

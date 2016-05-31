@@ -151,6 +151,17 @@ class Main:
                 xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
                     ADDON, VERSION, DATE, "video_page_url", str(video_page_url)), xbmc.LOGNOTICE)
 
+            # Skip the episode if it does not contain /episode/
+            if str(video_page_url).find("/episode/") < 0 :
+                continue
+            else:
+                if self.DEBUG == 'true':
+                    xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
+                        ADDON, VERSION, DATE,
+                        "skipped episode without /episode/ ",
+                        str(video_page_url)), xbmc.LOGNOTICE)
+                pass
+
             # Skip a video_page_url is empty
             if video_page_url == '':
                 continue
@@ -167,8 +178,8 @@ class Main:
                 thumbnail_url = ''
 
             title = str(episode)[pos_classname + len('class="name"') + 1:]
-            pos_smallerthan = title.find("<")
-            title = title[0:pos_smallerthan]
+            pos_smaller_then_symbol = title.find("<")
+            title = title[0:pos_smaller_then_symbol]
 
             # Clean up title
             try:
