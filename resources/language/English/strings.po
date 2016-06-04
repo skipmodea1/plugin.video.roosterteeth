@@ -83,10 +83,6 @@ msgctxt "#30017"
 msgid "Password"
 msgstr ""
 
-msgctxt "#30018"
-msgid "Debug"
-msgstr ""
-
 msgctxt "#30019"
 msgid "Very Low"
 msgstr ""

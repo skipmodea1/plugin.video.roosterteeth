@@ -4,18 +4,20 @@
 #
 # Imports
 #
-import os
 import sys
 import urllib
 import xbmcgui
 import xbmcplugin
 import os
 
-from roosterteeth_const import LANGUAGE, IMAGES_PATH, RECENTLYADDEDURL, ROOSTERTEETHSHOWSURL, \
-    ACHIEVEMENTHUNTERURL, THEKNOWSHOWSURL, FUNHAUSSHOWSURL, SCREWATTACKURL
+from roosterteeth_const import LANGUAGE, IMAGES_PATH
 
-
-
+RECENTLYADDEDURL = 'http://roosterteeth.com/episode/recently-added?page=001'
+ROOSTERTEETHSHOWSURL = 'http://www.roosterteeth.com/show/'
+ACHIEVEMENTHUNTERURL = 'http://achievementhunter.roosterteeth.com/show/'
+THEKNOWSHOWSURL = 'http://theknow.roosterteeth.com/show'
+FUNHAUSSHOWSURL = 'http://funhaus.roosterteeth.com/show'
+SCREWATTACKURL = 'http://screwattack.roosterteeth.com/show'
 
 #
 # Main class

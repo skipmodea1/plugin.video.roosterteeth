@@ -14,8 +14,7 @@ import xbmcgui
 import xbmcplugin
 from BeautifulSoup import BeautifulSoup
 
-from roosterteeth_const import ADDON, SETTINGS, DATE, VERSION, IMAGES_PATH, RECENTLYADDEDURL, ROOSTERTEETHSHOWSURL, \
-    ACHIEVEMENTHUNTERURL, THEKNOWSHOWSURL, FUNHAUSSHOWSURL, SCREWATTACKURL
+from roosterteeth_const import ADDON, SETTINGS, DATE, VERSION, IMAGES_PATH
 
 
 #
@@ -29,22 +28,17 @@ class Main:
         # Get the plugin handle as an integer number
         self.plugin_handle = int(sys.argv[1])
 
-        # Get plugin settings
-        self.DEBUG = SETTINGS.getSetting('debug')
-
-        if self.DEBUG == 'true':
-            xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s, %s = %s" % (
-                ADDON, VERSION, DATE, "ARGV", repr(sys.argv), "File", str(__file__)), xbmc.LOGNOTICE)
+        xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s, %s = %s" % (
+                ADDON, VERSION, DATE, "ARGV", repr(sys.argv), "File", str(__file__)), xbmc.LOGDEBUG)
 
         # Parse parameters...
         self.plugin_category = urlparse.parse_qs(urlparse.urlparse(sys.argv[2]).query)['plugin_category'][0]
         self.video_list_page_url = urlparse.parse_qs(urlparse.urlparse(sys.argv[2]).query)['url'][0]
         self.next_page_possible = urlparse.parse_qs(urlparse.urlparse(sys.argv[2]).query)['next_page_possible'][0]
 
-        if self.DEBUG == 'true':
-            xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
+        xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
                 ADDON, VERSION, DATE, "self.video_list_page_url", str(self.video_list_page_url)),
-                     xbmc.LOGNOTICE)
+                     xbmc.LOGDEBUG)
 
         #
         # Get the videos...
@@ -99,9 +93,8 @@ class Main:
 
         shows = soup.findAll('li')
 
-        if self.DEBUG == 'true':
-            xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
-                ADDON, VERSION, DATE, "len(shows)", str(len(shows))), xbmc.LOGNOTICE)
+        xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
+                ADDON, VERSION, DATE, "len(shows)", str(len(shows))), xbmc.LOGDEBUG)
 
         for show in shows:
             # Skip the show if it contains /episode/
@@ -123,20 +116,18 @@ class Main:
             if str(show).find("/episode/") < 0 :
                 pass
             else:
-                if self.DEBUG == 'true':
-                    xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
+                xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
                         ADDON, VERSION, DATE,
                         "skipped /episode/ show ",
-                        str(show)), xbmc.LOGNOTICE)
+                        str(show)), xbmc.LOGDEBUG)
                 continue
 
             # Skip a show if it does not contain class="name"
             pos_classname = str(show).find('class="name"')
             if pos_classname < 0:
-                if self.DEBUG == 'true':
-                    xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
+                xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
                         ADDON, VERSION, DATE, 'skipped show without class="name"', str(show)),
-                             xbmc.LOGNOTICE)
+                             xbmc.LOGDEBUG)
                 continue
 
             url = show.a['href']

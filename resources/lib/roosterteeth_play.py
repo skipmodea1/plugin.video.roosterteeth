@@ -44,13 +44,11 @@ class Main:
         self.plugin_handle = int(sys.argv[1])
 
         # Get plugin settings
-        self.DEBUG = SETTINGS.getSetting('debug')
         self.PREFERRED_QUALITY = SETTINGS.getSetting('quality')
         self.IS_SPONSOR = SETTINGS.getSetting('is_sponsor')
 
-        if self.DEBUG == 'true':
-            xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s, %s = %s" % (
-                ADDON, VERSION, DATE, "ARGV", repr(sys.argv), "File", str(__file__)), xbmc.LOGNOTICE)
+        xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s, %s = %s" % (
+            ADDON, VERSION, DATE, "ARGV", repr(sys.argv), "File", str(__file__)), xbmc.LOGDEBUG)
 
         # Parse parameters...
         self.video_page_url = urlparse.parse_qs(urlparse.urlparse(sys.argv[2]).query)['video_page_url'][0]
@@ -58,9 +56,8 @@ class Main:
         self.title = urlparse.parse_qs(urlparse.urlparse(sys.argv[2]).query)['title'][0]
         self.title = str(self.title)
 
-        if self.DEBUG == 'true':
-            xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
-                ADDON, VERSION, DATE, "self.video_page_url", str(self.video_page_url)), xbmc.LOGNOTICE)
+        xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
+            ADDON, VERSION, DATE, "self.video_page_url", str(self.video_page_url)), xbmc.LOGDEBUG)
         #
         # Play video...
         #
@@ -77,9 +74,9 @@ class Main:
         #
         # Get current list item details...
         #
-        #title = unicode(xbmc.getInfoLabel("listitem.Title"), "utf-8")
+        # title = unicode(xbmc.getInfoLabel("listitem.Title"), "utf-8")
         thumbnail_url = xbmc.getInfoImage("list_item.Thumb")
-        #studio = unicode(xbmc.getInfoLabel("list_item.Studio"), "utf-8")
+        # studio = unicode(xbmc.getInfoLabel("list_item.Studio"), "utf-8")
         plot = unicode(xbmc.getInfoLabel("list_item.Plot"), "utf-8")
         genre = unicode(xbmc.getInfoLabel("list_item.Genre"), "utf-8")
 
@@ -119,8 +116,7 @@ class Main:
                         else:
                             reply = session.get(LOGINURL_RT)
 
-                        if self.DEBUG == 'true':
-                            xbmc.log('get login page request, status_code:' + str(reply.status_code))
+                        xbmc.log('get login page request, status_code:' + str(reply.status_code))
 
                         # This is part of the LOGIN page, it contains a token!:
                         #
@@ -143,19 +139,18 @@ class Main:
                         payload = {'_token': token, 'username': SETTINGS.getSetting('username'),
                                    'password': SETTINGS.getSetting('password')}
                         # post the LOGIN-page with the LOGIN-data, to actually login this session
-                        if 'achievementhunter.com' in reply.url: # AH Login
+                        if 'achievementhunter.com' in reply.url:  # AH Login
                             reply = session.post(LOGINURL_AH, data=payload)
-                        elif 'fun.haus' in reply.url: # FH Login
+                        elif 'fun.haus' in reply.url:  # FH Login
                             reply = session.post(LOGINURL_FH, data=payload)
-                        elif 'theknow.tv' in reply.url: # TK Login
+                        elif 'theknow.tv' in reply.url:  # TK Login
                             reply = session.post(LOGINURL_TK, data=payload)
                         elif 'screwattack' in reply.url:  # SA Login
                             reply = session.post(LOGINURL_SA, data=payload)
-                        else: # RT Login
+                        else:  # RT Login
                             reply = session.post(LOGINURL_RT, data=payload)
 
-                        if self.DEBUG == 'true':
-                            xbmc.log('post login page response, status_code:' + str(reply.status_code))
+                        xbmc.log('post login page response, status_code:' + str(reply.status_code))
 
                         # check that the login was technically ok (status_code 200).
                         # This in itself does NOT mean that the username/password were correct.
@@ -164,14 +159,14 @@ class Main:
                             # check that the username is in the response. If that's the case, the login was ok
                             # and the username and password in settings are ok.
                             if str(reply.text).find(SETTINGS.getSetting('username')) >= 0:
-                                dialog_wait.create("Login Success","Currently looking for videos in '%s'" % self.title)
-                                if self.DEBUG == 'true':
-                                    xbmc.log('login was successful!')
+                                dialog_wait.create("Login Success", "Currently looking for videos in '%s'" % self.title)
+                                xbmc.log('login was successful!')
                                 # let's try getting the page again after a login, hopefully it contains a link to
                                 # the video now
                                 reply = session.get(self.video_page_url)
-                                if self.DEBUG == 'true':
-                                    xbmc.log("[ADDON] %s v%s (%s) debug mode, Loaded %s" % (ADDON, VERSION, DATE, self.video_page_url))
+                                xbmc.log("[ADDON] %s v%s (%s) debug mode, Loaded %s" % (
+                                ADDON, VERSION, DATE, str(self.video_page_url)),
+                                         xbmc.LOGDEBUG)
                             else:
                                 try:
                                     dialog_wait.close()
@@ -191,9 +186,8 @@ class Main:
                             exit(1)
 
                     except urllib2.HTTPError, error:
-                        if self.DEBUG == 'true':
-                            xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
-                                ADDON, VERSION, DATE, "HTTPError", str(error)), xbmc.LOGNOTICE)
+                        xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
+                            ADDON, VERSION, DATE, "HTTPError", str(error)), xbmc.LOGDEBUG)
                         try:
                             dialog_wait.close()
                             del dialog_wait
@@ -203,9 +197,8 @@ class Main:
                         exit(1)
                     except:
                         exception = sys.exc_info()[0]
-                        if self.DEBUG == 'true':
-                            xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
-                                ADDON, VERSION, DATE, "Exception1:", str(exception)), xbmc.LOGNOTICE)
+                        xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
+                            ADDON, VERSION, DATE, "Exception1:", str(exception)), xbmc.LOGDEBUG)
                         try:
                             dialog_wait.close()
                             del dialog_wait
@@ -223,21 +216,19 @@ class Main:
                     exit(1)
 
         except urllib2.HTTPError, error:
-            if self.DEBUG == 'true':
-                xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
-                    ADDON, VERSION, DATE, "HTTPError", str(error)), xbmc.LOGNOTICE)
-                try:
-                    dialog_wait.close()
-                    del dialog_wait
-                except:
-                    pass
+            xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
+                ADDON, VERSION, DATE, "HTTPError", str(error)), xbmc.LOGDEBUG)
+            try:
+                dialog_wait.close()
+                del dialog_wait
+            except:
+                pass
             xbmcgui.Dialog().ok(LANGUAGE(30000), LANGUAGE(30106) % (str(error)))
             exit(1)
         except:
             exception = sys.exc_info()[0]
-            if self.DEBUG == 'true':
-                xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
-                    ADDON, VERSION, DATE, "Exception2:", str(exception)), xbmc.LOGNOTICE)
+            xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
+                ADDON, VERSION, DATE, "Exception2:", str(exception)), xbmc.LOGDEBUG)
             try:
                 dialog_wait.close()
                 del dialog_wait
@@ -254,20 +245,20 @@ class Main:
 
         match = re.search(b'\'(.*?m3u8)', html_source, re.I | re.U)
         if match:
-            if self.PREFERRED_QUALITY == '0': # Very High Quality
+            if self.PREFERRED_QUALITY == '0':  # Very High Quality
                 quality = VQ1080P
-            elif self.PREFERRED_QUALITY == '1': # High Quality
+            elif self.PREFERRED_QUALITY == '1':  # High Quality
                 quality = VQ720P
-            elif self.PREFERRED_QUALITY == '2': # Medium
+            elif self.PREFERRED_QUALITY == '2':  # Medium
                 quality = VQ480P
-            elif self.PREFERRED_QUALITY == '3': # Low
+            elif self.PREFERRED_QUALITY == '3':  # Low
                 quality = VQ360P
-            elif self.PREFERRED_QUALITY == '4': # Very Low
+            elif self.PREFERRED_QUALITY == '4':  # Very Low
                 quality = VQ240P
-            else: # Default in case quality is not found?
+            else:  # Default in case quality is not found?
                 quality = VQ720P
             video_url = str(match.group(1))
-            video_url_altered = video_url.replace("index","NewHLS-%s" % quality)
+            video_url_altered = video_url.replace("index", "NewHLS-%s" % quality)
             # Find out if the m3u8 file exists
             reply = session.get(video_url_altered)
             # m3u8 file is found, let's use that. If it is not found, let's use the unaltered video url.
@@ -275,7 +266,7 @@ class Main:
                 video_url = video_url_altered
             have_valid_url = True
             xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
-                ADDON, VERSION, DATE, "final video_url", str(video_url)), xbmc.LOGNOTICE)
+                ADDON, VERSION, DATE, "final video_url", str(video_url)), xbmc.LOGDEBUG)
 
         # Play video...
         if have_valid_url:
@@ -286,6 +277,3 @@ class Main:
         #
         elif no_url_found:
             xbmcgui.Dialog().ok(LANGUAGE(30000), LANGUAGE(30107))
-        #
-        # The End
-        #
