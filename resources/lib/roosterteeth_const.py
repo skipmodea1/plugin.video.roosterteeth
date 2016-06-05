@@ -17,5 +17,5 @@ ACHIEVEMENTHUNTERURL = 'http://achievementhunter.roosterteeth.com/show/'
 THEKNOWSHOWSURL = 'http://theknow.roosterteeth.com/show'
 FUNHAUSSHOWSURL = 'http://funhaus.roosterteeth.com/show'
 SCREWATTACKURL = 'http://screwattack.roosterteeth.com/show'
-DATE = "2016-05-30"
-VERSION = "1.3.1"
+DATE = "2016-06-05"
+VERSION = "1.3.2-SNAPSHOT"

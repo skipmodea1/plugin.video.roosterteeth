@@ -52,7 +52,7 @@ msgid "Screw Attack"
 msgstr ""
 
 msgctxt "#30010"
-msgid "Preferred Video Quality"
+msgid "Maximum Video Quality"
 msgstr ""
 
 msgctxt "#30011"
