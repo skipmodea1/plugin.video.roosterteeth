@@ -1,3 +1,6 @@
+v1.3.4-SNAPSHOT (2017-06-28)
+- removed looking for video dialogue
+
 v1.3.3 (2017-03-03):
 fixed some typos
 fixed url in addon.xml as per request
