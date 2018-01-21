@@ -84,15 +84,12 @@ class Main(object):
             html_source = convertToUnicodeString(html_source)
 
             # is it a sponsored video?
-            if str(html_source).find('sponsor-only') >= 0 or str(html_source).find('non-sponsor') >= 0:
-                log("Sponsor", "Sponsor")
+            if str(response.text).find('sponsor-only') >= 0 or str(response.text).find('non-sponsor') >= 0:
                 if self.IS_SPONSOR == 'true':
                     try:
-                        log("sponsor2", "sponsor2")
                         # we need a NEW (!!!) session
                         session = requests.Session()
 
-                        log("sponsor2", "sponsor2")
                         # get the LOGIN-page
                         if 'achievementhunter' in response.url:
                             response = session.get(LOGINURL_AH)
@@ -109,11 +106,16 @@ class Main(object):
                         elif 'sugarpine7' in response.url:
                             response = session.get(LOGINURL_SP7)
                         else:
-                            log("sponsor3", "sponsor3")
                             response = session.get(LOGINURL_RT)
-                            log("sponsor4", "sponsor4")
 
-                        log('get login page request, status_code:', response.status_code)
+                        log('get login page request, status_code:',  response.status_code)
+
+                        html_source = response.text
+                        html_source = convertToUnicodeString(html_source)
+
+                        # log("html_source1", html_source)
+
+                        soup = getSoup(html_source)
 
                         # This is part of the LOGIN page, it contains a token!:
                         #
@@ -127,11 +129,10 @@ class Main(object):
                         # 	<input type="submit" value="Log in">
                         # 	</fieldset>
 
-                        # get the token
-                        soup = getSoup(html_source)
-
                         video_urls = soup.findAll('input', attrs={'name': re.compile("_token")}, limit=1)
                         token = str(video_urls[0]['value'])
+
+                        # log("token", token)
 
                         # set the needed LOGIN-data
                         payload = {'_token': token, 'username': SETTINGS.getSetting('username'),
@@ -165,14 +166,11 @@ class Main(object):
                             pass
                             # check that the username is in the response. If that's the case, the login was ok
                             # and the username and password in settings are ok.
+                            if str(response.text).find(SETTINGS.getSetting('username')) >= 0:
+                                # dialog_wait.create("Login Success", "Currently looking for videos in '%s'" % self.title)
 
-                            log("html_source", html_source)
-
-                            if str(html_source).find(SETTINGS.getSetting('username')) >= 0:
-                                dialog_wait.create("Login Success", "Currently looking for videos in '%s'" % self.title)
-                                
                                 log('login was successful!', 'login was successful!')
-                                
+
                                 # let's try getting the page again after a login, hopefully it contains a link to
                                 # the video now
                                 response = session.get(self.video_page_url)
@@ -180,6 +178,9 @@ class Main(object):
                                 log("self.video_page_url", self.video_page_url)
 
                             else:
+
+                                log('login was NOT successful!', 'login was NOT successful!')
+
                                 try:
                                     dialog_wait.close()
                                     del dialog_wait
@@ -211,7 +212,7 @@ class Main(object):
                     except:
                         exception = sys.exc_info()[0]
 
-                        log("Exception1", exception)
+                        log("ExceptionError1", exception)
 
                         try:
                             dialog_wait.close()
@@ -219,6 +220,7 @@ class Main(object):
                         except:
                             pass
                         exit(1)
+
                 else:
                     try:
                         dialog_wait.close()
@@ -227,8 +229,6 @@ class Main(object):
                         pass
                     xbmcgui.Dialog().ok(LANGUAGE(30000), LANGUAGE(30105))
                     exit(1)
-            else:
-                log("nonSponsor", "nonSponsor")
 
         except urllib.error.HTTPError as error:
 
@@ -241,11 +241,10 @@ class Main(object):
                 pass
             xbmcgui.Dialog().ok(LANGUAGE(30000), LANGUAGE(30106) % (str(error)))
             exit(1)
-
         except:
             exception = sys.exc_info()[0]
 
-            log("Exception2", exception)
+            log("ExceptionError2", exception)
 
             try:
                 dialog_wait.close()
@@ -254,7 +253,6 @@ class Main(object):
                 pass
             exit(1)
 
-
         html_source = response.text
         html_source = convertToUnicodeString(html_source)
 
@@ -262,7 +260,7 @@ class Main(object):
         no_url_found = True
         have_valid_url = False
 
-        match = re.search(b'\'(.*?m3u8)', html_source, re.I | re.U)
+        match = re.search('\'(.*?m3u8)', html_source, re.I | re.U)
         if match:
             if self.PREFERRED_QUALITY == '0':  # Very High Quality
                 quality = VQ1080P
