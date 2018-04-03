@@ -110,7 +110,8 @@ class Main(object):
             # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs of the parameters
             title = title.encode('ascii', 'ignore')
 
-            parameters = {"action": "list-serie-seasons", "url": url, "title": title, "next_page_possible": "False"}
+            parameters = {"action": "list-serie-seasons", "url": url, "title": title, "thumbnail_url": thumbnail_url ,
+                          "next_page_possible": "False"}
             plugin_url_with_parms = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
             is_folder = True
             # Add refresh option to context menu

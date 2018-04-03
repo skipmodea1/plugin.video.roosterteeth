@@ -141,7 +141,7 @@ class Main(object):
                         log('post login page response, status_code:', response.status_code)
 
                         html_source = response.text
-                        # html_source = convertToUnicodeString(html_source)
+                        html_source = convertToUnicodeString(html_source)
 
                         # log("html_source getting authorization", html_source)
 
@@ -291,7 +291,7 @@ class Main(object):
                 html_source = response.text
                 html_source = convertToUnicodeString(html_source)
 
-                log("html_source m3u8 file", html_source)
+                # log("html_source m3u8 file", html_source)
 
                 # determine the wanted video quality
                 if self.PREFERRED_QUALITY == '0':  # Very Low
