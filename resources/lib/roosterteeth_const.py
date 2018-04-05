@@ -82,10 +82,16 @@ def getSoup(html, default_parser="html5lib"):
 
 
 def find_all(string_to_be_searched_for, string_to_be_searched_in):
-    start = 0
-    while True:
-        start = string_to_be_searched_for.find(string_to_be_searched_in, start)
-        if start == -1: 
-            return
-        yield start
-        start += len(string_to_be_searched_in) # use start += 1 to find overlapping matches
+    monitor = xbmc.Monitor()
+    start_pos_in_string_to_be_searched_in = 0
+    start_pos_array = []
+    # exit loop when kodi gets an abort-request
+    while not monitor.abortRequested():
+        found_start_pos = string_to_be_searched_in.find(string_to_be_searched_for, start_pos_in_string_to_be_searched_in)
+        if found_start_pos == -1:
+            # exit the loop
+            break
+        else:
+            start_pos_array.append(found_start_pos)
+            start_pos_in_string_to_be_searched_in = found_start_pos + 1
+    return start_pos_array

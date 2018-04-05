@@ -16,7 +16,7 @@ import xbmcgui
 import xbmcplugin
 import json
 
-from roosterteeth_const import IMAGES_PATH, HEADERS, LANGUAGE, convertToUnicodeString, log, SPONSORED_VIDEO_TITLE_TEXT, ROOSTERTEETH_BASE_URL
+from roosterteeth_const import IMAGES_PATH, HEADERS, LANGUAGE, convertToUnicodeString, log, SPONSORED_VIDEO_TITLE_TEXT,\
 
 
 #
@@ -79,6 +79,7 @@ class Main(object):
             exit(1)
 
         for item in json_data['data']:
+
             episode_title = item['attributes']['title']
 
             caption = item['attributes']['caption']
@@ -89,8 +90,8 @@ class Main(object):
 
             # the url should be something like:
             # https://svod-be.roosterteeth.com/api/v1/episodes/ffc530d0-464d-11e7-a302-065410f210c4/videos"
-            # (or even
-            # https://svod-be.roosterteeth.com/api/v1/episodes/lets-play-2011-2/videos)
+            # or even
+            # https://svod-be.roosterteeth.com/api/v1/episodes/lets-play-2011-2/videos
             technical_episode_url_last_part = item['links']['videos']
             technical_episode_url = ROOSTERTEETH_BASE_URL + technical_episode_url_last_part
             technical_url = technical_episode_url
