@@ -17,6 +17,7 @@ import xbmcplugin
 import json
 
 from roosterteeth_const import IMAGES_PATH, HEADERS, LANGUAGE, convertToUnicodeString, log, SPONSORED_VIDEO_TITLE_TEXT,\
+    ROOSTERTEETH_BASE_URL
 
 
 #
