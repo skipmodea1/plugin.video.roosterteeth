@@ -81,7 +81,8 @@ class Main(object):
         for item in json_data['data']:
             season_title = item['attributes']['title']
 
-            # the season url should something like this: https://svod-be.roosterteeth.com/api/v1/seasons/let-s-play-2018/episodes
+            # the season url should something like this:
+            # https://svod-be.roosterteeth.com/api/v1/seasons/let-s-play-2018/episodes
             serie_url_last_part = item['links']['episodes']
             serie_url = ROOSTERTEETH_BASE_URL + serie_url_last_part
 
@@ -105,10 +106,12 @@ class Main(object):
                              'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
             list_item.setProperty('IsPlayable', 'false')
 
-            # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs of the parameters
+            # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs
+            # of the parameters
             title = title.encode('ascii', 'ignore')
 
-            parameters = {"action": "list-episodes", "url": url, "title": title, "show_serie_name": "False", "next_page_possible": "False"}
+            parameters = {"action": "list-episodes", "url": url, "title": title, "show_serie_name": "False",
+                          "next_page_possible": "False"}
             plugin_url_with_parms = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
             is_folder = True
             # Add refresh option to context menu

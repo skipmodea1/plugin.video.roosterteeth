@@ -13,11 +13,12 @@ import xbmcgui
 import xbmcplugin
 import os
 
-from roosterteeth_const import LANGUAGE, IMAGES_PATH, ROOSTERTEETH_SERIES_URL, ROOSTERTEETH_RECENTLY_ADDED_VIDEOS_SERIES_URL, \
-    ACHIEVEMENTHUNTER_RECENTLY_ADDED_VIDEOS_SERIES_URL, FUNHAUS_RECENTLY_ADDED_VIDEOS_SERIES_URL,\
-    SCREWATTACK__RECENTLY_ADDED_VIDEOS_SERIES_URL, COWCHOP_RECENTLY_ADDED_VIDEOS_SERIES_URL, \
-    SUGARPINE7__RECENTLY_ADDED_VIDEOS_SERIES_URL, GAMEATTACK_RECENTLY_ADDED_VIDEOS_SERIES_URL, \
-    THEKNOW_RECENTLY_ADDED_VIDEOS_SERIES_URL, JTMUSIC_RECENTLY_ADDED_VIDEOS_SERIES_URL
+from roosterteeth_const import LANGUAGE, IMAGES_PATH, ROOSTERTEETH_SERIES_URL, \
+    ROOSTERTEETH_RECENTLY_ADDED_VIDEOS_SERIES_URL, ACHIEVEMENTHUNTER_RECENTLY_ADDED_VIDEOS_SERIES_URL, \
+    FUNHAUS_RECENTLY_ADDED_VIDEOS_SERIES_URL,SCREWATTACK__RECENTLY_ADDED_VIDEOS_SERIES_URL, \
+    COWCHOP_RECENTLY_ADDED_VIDEOS_SERIES_URL, SUGARPINE7__RECENTLY_ADDED_VIDEOS_SERIES_URL, \
+    GAMEATTACK_RECENTLY_ADDED_VIDEOS_SERIES_URL, THEKNOW_RECENTLY_ADDED_VIDEOS_SERIES_URL, \
+    JTMUSIC_RECENTLY_ADDED_VIDEOS_SERIES_URL
 #
 # Main class
 #
@@ -32,7 +33,8 @@ class Main(object):
         #
         # Roosterteeth Recently Added Episodes
         #
-        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30301), "url": ROOSTERTEETH_RECENTLY_ADDED_VIDEOS_SERIES_URL,
+        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30301),
+                      "url": ROOSTERTEETH_RECENTLY_ADDED_VIDEOS_SERIES_URL,
                       "show_serie_name": "True", "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30301))
@@ -69,7 +71,8 @@ class Main(object):
         #
         # Fun Haus Recently Added Episodes
         #
-        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30305), "url": FUNHAUS_RECENTLY_ADDED_VIDEOS_SERIES_URL,
+        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30305),
+                      "url": FUNHAUS_RECENTLY_ADDED_VIDEOS_SERIES_URL,
                       "show_serie_name": "True", "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30305))
@@ -81,7 +84,8 @@ class Main(object):
         #
         # Screw Attack Recently Added Episodes
         #
-        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30307), "url": SCREWATTACK__RECENTLY_ADDED_VIDEOS_SERIES_URL,
+        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30307),
+                      "url": SCREWATTACK__RECENTLY_ADDED_VIDEOS_SERIES_URL,
                       "show_serie_name": "True", "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30307))
@@ -93,7 +97,8 @@ class Main(object):
         #
         # Cow Chop Recently Added Episodes
         #
-        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30309), "url": COWCHOP_RECENTLY_ADDED_VIDEOS_SERIES_URL,
+        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30309),
+                      "url": COWCHOP_RECENTLY_ADDED_VIDEOS_SERIES_URL,
                       "show_serie_name": "True", "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30309))
@@ -105,7 +110,8 @@ class Main(object):
         #
         # Sugar Pine 7 Recently Added Episodes
         #
-        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30311), "url": SUGARPINE7__RECENTLY_ADDED_VIDEOS_SERIES_URL,
+        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30311),
+                      "url": SUGARPINE7__RECENTLY_ADDED_VIDEOS_SERIES_URL,
                       "show_serie_name": "True", "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30311))
@@ -117,7 +123,8 @@ class Main(object):
         #
         # Game Attack Recently Added Episodes
         #
-        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30313), "url": GAMEATTACK_RECENTLY_ADDED_VIDEOS_SERIES_URL,
+        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30313),
+                      "url": GAMEATTACK_RECENTLY_ADDED_VIDEOS_SERIES_URL,
                       "show_serie_name": "True", "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30313))
@@ -129,7 +136,8 @@ class Main(object):
         #
         # The Know Recently Added Episodes
         #
-        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30315), "url": THEKNOW_RECENTLY_ADDED_VIDEOS_SERIES_URL,
+        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30315),
+                      "url": THEKNOW_RECENTLY_ADDED_VIDEOS_SERIES_URL,
                       "show_serie_name": "True", "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30315))
@@ -141,7 +149,8 @@ class Main(object):
         #
         # JT Music Recently Added Episodes
         #
-        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30317), "url": JTMUSIC_RECENTLY_ADDED_VIDEOS_SERIES_URL,
+        parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30317),
+                      "url": JTMUSIC_RECENTLY_ADDED_VIDEOS_SERIES_URL,
                       "show_serie_name": "True", "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30317))

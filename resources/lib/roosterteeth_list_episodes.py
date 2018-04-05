@@ -16,7 +16,7 @@ import xbmcgui
 import xbmcplugin
 import json
 
-from roosterteeth_const import IMAGES_PATH, HEADERS, LANGUAGE, convertToUnicodeString, log, SPONSORED_VIDEO, ROOSTERTEETH_BASE_URL
+from roosterteeth_const import IMAGES_PATH, HEADERS, LANGUAGE, convertToUnicodeString, log, SPONSORED_VIDEO_TITLE_TEXT, ROOSTERTEETH_BASE_URL
 
 
 #
@@ -79,14 +79,18 @@ class Main(object):
             exit(1)
 
         for item in json_data['data']:
-            episode_title = item['attributes']['display_title']
+            episode_title = item['attributes']['title']
 
             caption = item['attributes']['caption']
 
             length = item['attributes']['length']
 
-            # the url should be something like: https://svod-be.roosterteeth.com/api/v1/episodes/ffc530d0-464d-11e7-a302-065410f210c4/videos"
-            # (or even https://svod-be.roosterteeth.com/api/v1/episodes/lets-play-2011-2/videos)
+            channel_slug = item['attributes']['channel_slug']
+
+            # the url should be something like:
+            # https://svod-be.roosterteeth.com/api/v1/episodes/ffc530d0-464d-11e7-a302-065410f210c4/videos"
+            # (or even
+            # https://svod-be.roosterteeth.com/api/v1/episodes/lets-play-2011-2/videos)
             technical_episode_url_last_part = item['links']['videos']
             technical_episode_url = ROOSTERTEETH_BASE_URL + technical_episode_url_last_part
             technical_url = technical_episode_url
@@ -115,7 +119,9 @@ class Main(object):
                 title = episode_title
 
             if is_sponsor_only:
-                title = title + ' ' + SPONSORED_VIDEO
+                title = title + ' ' + SPONSORED_VIDEO_TITLE_TEXT
+
+            title = convertToUnicodeString(title)
 
             log("title", title)
 
@@ -131,16 +137,24 @@ class Main(object):
 
             log("duration_in_seconds", duration_in_seconds)
 
+            studio = channel_slug
+            studio = convertToUnicodeString(studio)
+            studio = studio.replace("-", " ")
+            studio = studio.capitalize()
+
+            log("studio", studio)
+
             # Add to list...
             list_item = xbmcgui.ListItem(label=title, thumbnailImage=thumbnail_url)
             list_item.setInfo("video",
-                             {"title": title, "studio": "Roosterteeth", "mediatype": "video",
+                             {"title": title, "studio": studio, "mediatype": "video",
                               "plot": plot, "duration": duration_in_seconds})
             list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
                              'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
             list_item.setProperty('IsPlayable', 'true')
 
-            # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs of the parameters
+            # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs
+            # of the parameters
             title = title.encode('ascii', 'ignore')
 
             parameters = {"action": "play", "functional_url": functional_url, "technical_url": technical_url,

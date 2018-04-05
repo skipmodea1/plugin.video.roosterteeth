@@ -44,7 +44,7 @@ class Main(object):
         self.functional_url = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['functional_url'][0]
         self.technical_url = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['technical_url'][0]
         self.title = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['title'][0]
-        self.title = str(self.title)
+        self.title = convertToUnicodeString(self.title)
         self.is_sponsor_only = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['is_sponsor_only'][0]
 
         log("self.functional_url", self.functional_url)
@@ -149,9 +149,9 @@ class Main(object):
                         # This in itself does NOT mean that the username/password were correct.
                         if response.status_code == 200:
                             pass
-                            # {"access_token":"eyJ0eXAiOiJKV1QiLCJSOMETHINGSOMETHING","token_type":"bearer","expires_
+                            # {"access_token":"eyJ0eXAiOiJKV1QiLCJ<SOMETHINGSOMETHING>","token_type":"bearer","expires_
                             # check that we get back an access_token (oauth)
-                            # for some reason the html_source can't be loaded in json, so we have to do it the hard way :(
+                            # for some reason html_source can't be loaded in json, so we have to do it the hard way :(
                             start_pos_access_token_url = html_source.find('"access_token":"')
                             if start_pos_access_token_url >= 0:
 
@@ -167,7 +167,7 @@ class Main(object):
                                 headers_with_access_token = HEADERS
                                 # add the access token to the dictionary
                                 # see https://stackoverflow.com/questions/29931671/making-an-api-call-in-python-with-an-api-that-requires-a-bearer-token
-                                # this is some specific magic for authorization
+                                # this is some specific magic for setting the authorization in the header
                                 headers_with_access_token['Authorization'] = "Bearer " + access_token
 
                                 # log("headers_with_access_token", headers_with_access_token)
@@ -198,7 +198,7 @@ class Main(object):
                                 del dialog_wait
                             except:
                                 pass
-                            xbmcgui.Dialog().ok(LANGUAGE(30000), LANGUAGE(30104) % (str(response.status_code)))
+                            xbmcgui.Dialog().ok(LANGUAGE(30000), LANGUAGE(30104) % (convertToUnicodeString(response.status_code)))
                             exit(1)
 
                     except urllib.error.HTTPError as error:
@@ -210,7 +210,7 @@ class Main(object):
                             del dialog_wait
                         except:
                             pass
-                        xbmcgui.Dialog().ok(LANGUAGE(30000), LANGUAGE(30106) % (str(error)))
+                        xbmcgui.Dialog().ok(LANGUAGE(30000), LANGUAGE(30106) % (convertToUnicodeString(error)))
                         exit(1)
                     except:
                         exception = sys.exc_info()[0]
@@ -246,7 +246,7 @@ class Main(object):
                 del dialog_wait
             except:
                 pass
-            xbmcgui.Dialog().ok(LANGUAGE(30000), LANGUAGE(30106) % (str(error)))
+            xbmcgui.Dialog().ok(LANGUAGE(30000), LANGUAGE(30106) % (convertToUnicodeString(error)))
             exit(1)
         except:
             exception = sys.exc_info()[0]
@@ -264,7 +264,7 @@ class Main(object):
         no_url_found = True
         have_valid_url = False
 
-        # for some reason the html_source can't be loaded in json, so we have to do it the hard way :(
+        # for some reason html_source can't be loaded in json, so we have to do it the hard way :(
         start_pos_m3u8_url = html_source.find('"url":"')
         if start_pos_m3u8_url == -1:
             found_m3u8_url = False
@@ -338,9 +338,9 @@ class Main(object):
 
                         # log("line", line)
                         
-                        if str(line).find(quality) >= 0:
+                        if line.find(quality) >= 0:
                             video_url_altered = video_url.replace("index.m3u8", line)
-                        elif str(line).find(quality.upper()) >= 0:
+                        elif line.find(quality.upper()) >= 0:
                             video_url_altered = video_url.replace("index.m3u8", line)
 
                 if video_url_altered == '':
@@ -354,7 +354,8 @@ class Main(object):
 
                     log("response.status_code", response.status_code)
 
-                    # if we find a m3u8 file with the altered url, let's use that. If it is not found, let's use the unaltered url.
+                    # if we find a m3u8 file with the altered url, let's use that.
+                    # If it is not found, let's use the unaltered url.
                     if response.status_code == 200:
                         video_url = video_url_altered
 
@@ -362,7 +363,7 @@ class Main(object):
 
                 log("final video_url", video_url)
             else:
-                 have_valid_url = False
+                have_valid_url = False
 
         # Play video...
         if have_valid_url:

@@ -20,16 +20,17 @@ ROOSTERTEETH_AUTHORIZATION_URL = 'https://auth.roosterteeth.com/oauth/token'
 ROOSTERTEETH_BASE_URL = 'https://svod-be.roosterteeth.com'
 ROOSTERTEETH_SERIES_BASE_URL = 'https://svod-be.roosterteeth.com/api/v1/shows'
 ROOSTERTEETH_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/shows?per_page=1000&order=desc'
-ROOSTERTEETH_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/rooster-teeth/episodes?per_page=30'
-ACHIEVEMENTHUNTER_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/achievement-hunter/episodes?per_page=30'
-FUNHAUS_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/funhaus/episodes?per_page=30'
-SCREWATTACK__RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/screwattack/episodes?per_page=30'
-COWCHOP_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/cow-chop/episodes?per_page=30'
-SUGARPINE7__RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/sugar-pine-7/episodes?per_page=30'
-GAMEATTACK_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/game-attack/episodes?per_page=30'
-THEKNOW_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/the-know/episodes?per_page=30'
-JTMUSIC_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/jt-music/episodes?per_page=30'
-SPONSORED_VIDEO = '[Sponsored Video]'
+NUMBER_OF_EPISODES_PER_PAGE = '30'
+ROOSTERTEETH_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/rooster-teeth/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
+ACHIEVEMENTHUNTER_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/achievement-hunter/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
+FUNHAUS_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/funhaus/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
+SCREWATTACK__RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/screwattack/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
+COWCHOP_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/cow-chop/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
+SUGARPINE7__RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/sugar-pine-7/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
+GAMEATTACK_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/game-attack/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
+THEKNOW_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/the-know/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
+JTMUSIC_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/jt-music/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
+SPONSORED_VIDEO_TITLE_TEXT = '[Sponsored Video]'
 VQ4K = '4k'
 VQ1080P = '1080p'
 VQ720P = '720p'
@@ -65,9 +66,7 @@ def log(name_object, object):
         object = object.encode('ascii', 'ignore')
     except:
         pass
-    
 
-    
     try:
         xbmc.log("[ADDON] %s v%s (%s) debug mode, %s = %s" % (
             ADDON, VERSION, DATE, name_object, convertToUnicodeString(object)), xbmc.LOGDEBUG)

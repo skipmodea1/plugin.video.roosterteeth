@@ -36,8 +36,7 @@ class Main(object):
         # Parse parameters...
         self.plugin_category = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['plugin_category'][0]
         self.video_list_page_url = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['url'][0]
-        self.next_page_possible = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['next_page_possible'][
-            0]
+        self.next_page_possible = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['next_page_possible'][0]
 
         log("self.url", self.video_list_page_url)
 
@@ -82,7 +81,8 @@ class Main(object):
             serie_title = item['attributes']['title']
 
             serie_url_middle_part = item['canonical_links']['self']
-            # the serie url should something like this: https://svod-be.roosterteeth.com/api/v1/shows/always-open/seasons
+            # the serie url should something like this:
+            # https://svod-be.roosterteeth.com/api/v1/shows/always-open/seasons
             serie_url = ROOSTERTEETH_SERIES_BASE_URL + serie_url_middle_part + '/seasons'
             # remove '/series/' from the url
             serie_url = serie_url.replace('/series/', '/')
@@ -107,7 +107,8 @@ class Main(object):
                               'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
             list_item.setProperty('IsPlayable', 'false')
 
-            # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs of the parameters
+            # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs
+            # of the parameters
             title = title.encode('ascii', 'ignore')
 
             parameters = {"action": "list-serie-seasons", "url": url, "title": title, "thumbnail_url": thumbnail_url ,
