@@ -30,7 +30,7 @@ SUGARPINE7__RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com
 GAMEATTACK_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/game-attack/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
 THEKNOW_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/the-know/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
 JTMUSIC_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/jt-music/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
-SPONSORED_VIDEO_TITLE_TEXT = '[Sponsored Video]'
+SPONSOR_ONLY_VIDEO_TITLE_PREFIX = '* '
 VQ4K = '4k'
 VQ1080P = '1080p'
 VQ720P = '720p'
