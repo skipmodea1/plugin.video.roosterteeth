@@ -121,11 +121,7 @@ class Main(object):
                 title = episode_title
 
             if is_sponsor_only:
-<<<<<<< HEAD
                 title = SPONSOR_ONLY_VIDEO_TITLE_PREFIX + ' ' + title
-=======
-                title = SPONSOR_ONLY_VIDEO_TITLE_PREFIX + ' ' + title + ' '
->>>>>>> origin/master
 
             title = convertToUnicodeString(title)
 
