@@ -38,8 +38,8 @@ VQ480P = '480p'
 VQ360P = '360p'
 VQ240P = '240p'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
-DATE = "2018-03-30"
-VERSION = "1.3.8"
+DATE = "2018-04-07"
+VERSION = "1.3.9-SNAPSHOT"
 
 
 if sys.version_info[0] > 2:
