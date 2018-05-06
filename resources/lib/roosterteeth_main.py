@@ -44,6 +44,18 @@ class Main(object):
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
         #
+        # Series
+        #
+        parameters = {"action": "list-series", "plugin_category": LANGUAGE(30302), "url": ROOSTERTEETH_SERIES_URL,
+                      "show_serie_name": "True", "next_page_possible": "False"}
+        url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
+        list_item = xbmcgui.ListItem(LANGUAGE(30302))
+        is_folder = True
+        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+        list_item.setProperty('IsPlayable', 'false')
+        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
+
+        #
         # Achievement Hunter Recently Added Episodes
         #
         parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30303),
@@ -142,18 +154,6 @@ class Main(object):
                       "show_serie_name": "True", "next_page_possible": "False"}
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30317))
-        is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
-        list_item.setProperty('IsPlayable', 'false')
-        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
-
-        #
-        # Series
-        #
-        parameters = {"action": "list-series", "plugin_category": LANGUAGE(30302), "url": ROOSTERTEETH_SERIES_URL,
-                      "show_serie_name": "True", "next_page_possible": "False"}
-        url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
-        list_item = xbmcgui.ListItem(LANGUAGE(30302))
         is_folder = True
         list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
         list_item.setProperty('IsPlayable', 'false')
