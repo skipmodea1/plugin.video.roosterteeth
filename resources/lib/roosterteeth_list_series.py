@@ -86,7 +86,7 @@ class Main(object):
             # remove '/series/' from the url
             serie_url = serie_url.replace('/series/', '/')
 
-            thumb = item['included']['images'][0]['attributes']['thumb']
+            thumb = item['included']['images'][0]['attributes']['medium']
 
             title = serie_title
 

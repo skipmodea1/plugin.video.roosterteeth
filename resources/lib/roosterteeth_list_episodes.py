@@ -103,7 +103,7 @@ class Main(object):
 
             log("functional_url", functional_url)
 
-            thumb = item['included']['images'][0]['attributes']['thumb']
+            thumb = item['included']['images'][0]['attributes']['medium']
 
             serie_title = item['attributes']['show_title']
 
