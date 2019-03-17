@@ -47,6 +47,11 @@ else:
     if action == 'list-serie-seasons':
         import roosterteeth_list_serie_seasons as plugin
     #
+    # List Steams
+    #
+    if action == 'list-streams':
+        import roosterteeth_list_streams as plugin
+    #
     # Play
     #
     elif action == 'play':

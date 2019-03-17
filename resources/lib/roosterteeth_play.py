@@ -45,6 +45,7 @@ class Main(object):
         self.title = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['title'][0]
         self.title = convertToUnicodeString(self.title)
         self.is_sponsor_only = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['is_sponsor_only'][0]
+        self.is_livestream = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['is_livestream'][0]
 
         log("self.functional_url", self.functional_url)
 
@@ -257,23 +258,29 @@ class Main(object):
         no_url_found = True
         have_valid_url = False
 
-        # for some reason html_source can't be loaded in json, so we have to do it the hard way :(
-        start_pos_m3u8_url = html_source.find('"url":"')
-        if start_pos_m3u8_url == -1:
-            found_m3u8_url = False
+
+        # Just use source_url attribute if live stream
+        if self.is_livestream == 'True':
+            found_m3u8_url = True
+            m3u8_url = self.url
         else:
-            start_pos_m3u8_url = start_pos_m3u8_url + len('"url":"')
-            end_pos_m3u8_url = html_source.find('"', start_pos_m3u8_url)
-            if end_pos_m3u8_url == -1:
+            # for some reason html_source can't be loaded in json, so we have to do it the hard way :(
+            start_pos_m3u8_url = html_source.find('"url":"')
+            if start_pos_m3u8_url == -1:
                 found_m3u8_url = False
             else:
-                m3u8_url = html_source[start_pos_m3u8_url:end_pos_m3u8_url]
+                start_pos_m3u8_url = start_pos_m3u8_url + len('"url":"')
+                end_pos_m3u8_url = html_source.find('"', start_pos_m3u8_url)
+                if end_pos_m3u8_url == -1:
+                    found_m3u8_url = False
+                else:
+                    m3u8_url = html_source[start_pos_m3u8_url:end_pos_m3u8_url]
 
-                log("m3u8_url", m3u8_url)
+                    log("m3u8_url", m3u8_url)
 
-                found_m3u8_url = True
+                    found_m3u8_url = True
 
-        log("found_m3u8_url", found_m3u8_url)
+            log("found_m3u8_url", found_m3u8_url)
 
         if found_m3u8_url:
             # for some reason u0026 is present in the url, it should have been an ampersand

@@ -18,7 +18,7 @@ from roosterteeth_const import LANGUAGE, IMAGES_PATH, ROOSTERTEETH_SERIES_URL, \
     FUNHAUS_RECENTLY_ADDED_VIDEOS_SERIES_URL, INSIDE_GAMING_RECENTLY_ADDED_VIDEOS_SERIES_URL, \
     SCREWATTACK__RECENTLY_ADDED_VIDEOS_SERIES_URL, SUGARPINE7__RECENTLY_ADDED_VIDEOS_SERIES_URL, \
     COWCHOP_RECENTLY_ADDED_VIDEOS_SERIES_URL, GAMEATTACK_RECENTLY_ADDED_VIDEOS_SERIES_URL, \
-    JTMUSIC_RECENTLY_ADDED_VIDEOS_SERIES_URL, KINDAFUNNY_RECENTLY_ADDED_VIDEOS_SERIES_URL
+    JTMUSIC_RECENTLY_ADDED_VIDEOS_SERIES_URL, KINDAFUNNY_RECENTLY_ADDED_VIDEOS_SERIES_URL, LIVE_URL
 
 #
 # Main class
@@ -30,6 +30,18 @@ class Main(object):
         self.plugin_url = sys.argv[0]
         # Get the plugin handle as an integer number
         self.plugin_handle = int(sys.argv[1])
+
+        #
+        # Live
+        #
+        parameters = {"action": "list-streams", "plugin_category": LANGUAGE(30321), "url": LIVE_URL,
+                      "show_serie_name": "True", "next_page_possible": "False", "check_source_url": "True"}
+        url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
+        list_item = xbmcgui.ListItem(LANGUAGE(30321))
+        is_folder = True
+        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-rt.png')})
+        list_item.setProperty('IsPlayable', 'false')
+        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
         #
         # Series

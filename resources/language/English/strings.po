@@ -194,3 +194,7 @@ msgstr ""
 msgctxt "#30320"
 msgid "Kinda Funny Series"
 msgstr ""
+
+msgctxt "#30321"
+msgid "Live Streams"
+msgstr ""

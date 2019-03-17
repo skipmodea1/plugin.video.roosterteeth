@@ -18,7 +18,6 @@ import json
 from roosterteeth_const import IMAGES_PATH, HEADERS, LANGUAGE, convertToUnicodeString, log, \
     SPONSOR_ONLY_VIDEO_TITLE_PREFIX, ROOSTERTEETH_BASE_URL
 
-
 #
 # Main class
 #
@@ -35,21 +34,20 @@ class Main(object):
         # Parse parameters...
         self.url = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['url'][0]
         self.next_page_possible = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['next_page_possible'][0]
-        self.show_serie_name = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['show_serie_name'][0]
 
         # log("self.url", self.url)
 
         # log("self.show_serie_name", self.show_serie_name)
 
         #
-        # Get the videos...
+        # Get the streams...
         #
-        self.getVideos()
+        self.getStreams()
 
     #
     # Get videos...
     #
-    def getVideos(self):
+    def getStreams(self):
         #
         # Init
         #
@@ -82,41 +80,18 @@ class Main(object):
 
             episode_title = item['attributes']['title']
 
-            caption = item['attributes']['caption']
-
-            length = item['attributes']['length']
+            caption = item['attributes']['description']
 
             channel_slug = item['attributes']['channel_slug']
 
-            # the url should be something like:
-            # https://svod-be.roosterteeth.com/api/v1/episodes/ffc530d0-464d-11e7-a302-065410f210c4/videos"
-            # or even
-            # https://svod-be.roosterteeth.com/api/v1/episodes/lets-play-2011-2/videos
-            technical_episode_url_last_part = item['links']['videos']
-            technical_episode_url = ROOSTERTEETH_BASE_URL + technical_episode_url_last_part
-            technical_url = technical_episode_url
-
-            log("technical_url", technical_url)
-
-            functional_episode_url_middle_part = item['links']['self']
-            functional_url = ROOSTERTEETH_BASE_URL + functional_episode_url_middle_part + '/videos'
-
-            log("functional_url", functional_url)
+            url = item['attributes']['source_url']
 
             thumb = item['included']['images'][0]['attributes']['medium']
 
-            serie_title = item['attributes']['show_title']
-
             is_sponsor_only = item['attributes']['is_sponsors_only']
 
-            # let's put some more info in the title of the episode
-            if self.show_serie_name == "True":
-                title = serie_title + ' - ' + episode_title
-            else:
-                title = episode_title
-
             if is_sponsor_only:
-                title = SPONSOR_ONLY_VIDEO_TITLE_PREFIX + ' ' + title
+                title = SPONSOR_ONLY_VIDEO_TITLE_PREFIX + ' ' + episode_title
 
             title = convertToUnicodeString(title)
 
@@ -124,35 +99,34 @@ class Main(object):
 
             plot = caption
 
-            duration_in_seconds = length
-
             studio = channel_slug
             studio = convertToUnicodeString(studio)
             studio = studio.replace("-", " ")
             studio = studio.capitalize()
 
             # Add to list...
-            list_item = xbmcgui.ListItem(label=title, thumbnailImage=thumbnail_url)
-            list_item.setInfo("video",
-                             {"title": title, "studio": studio, "mediatype": "video",
-                              "plot": plot, "duration": duration_in_seconds})
-            list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
-                             'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
-            list_item.setProperty('IsPlayable', 'true')
+            if url != '':
+                list_item = xbmcgui.ListItem(label=title, thumbnailImage=thumbnail_url)
+                list_item.setInfo("video",
+                                {"title": title, "studio": studio, "mediatype": "video",
+                                "plot": plot})
+                list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
+                                'fanart': os.path.join(IMAGES_PATH, 'fanart-rt.png')})
+                list_item.setProperty('IsPlayable', 'true')
 
-            # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs
-            # of the parameters
-            title = title.encode('ascii', 'ignore')
+                # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs
+                # of the parameters
+                title = title.encode('ascii', 'ignore')
 
-            parameters = {"action": "play", "functional_url": functional_url, "technical_url": technical_url,
-                          "title": title, "is_sponsor_only": is_sponsor_only, "next_page_possible": "False", "is_livestream": "False"}
+                parameters = {"action": "play", "functional_url": url, "technical_url": url,
+                            "title": title, "is_sponsor_only": is_sponsor_only, "next_page_possible": "False", "is_livestream": "True"}
 
-            plugin_url_with_parms = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
-            is_folder = False
-            # Add refresh option to context menu
-            list_item.addContextMenuItems([('Refresh', 'Container.Refresh')])
-            # Add our item to the listing as a 3-element tuple.
-            listing.append((plugin_url_with_parms, list_item, is_folder))
+                plugin_url_with_parms = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
+                is_folder = False
+                # Add refresh option to context menu
+                list_item.addContextMenuItems([('Refresh', 'Container.Refresh')])
+                # Add our item to the listing as a 3-element tuple.
+                listing.append((plugin_url_with_parms, list_item, is_folder))
 
         # Add our listing to Kodi.
         # Large lists and/or slower systems benefit from adding all items at once via addDirectoryItems

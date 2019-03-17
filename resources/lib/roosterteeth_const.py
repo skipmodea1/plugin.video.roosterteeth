@@ -20,6 +20,7 @@ ROOSTERTEETH_AUTHORIZATION_URL = 'https://auth.roosterteeth.com/oauth/token'
 ROOSTERTEETH_BASE_URL = 'https://svod-be.roosterteeth.com'
 ROOSTERTEETH_SERIES_BASE_URL = 'https://svod-be.roosterteeth.com/api/v1/shows'
 ROOSTERTEETH_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/shows?per_page=1000&order=desc'
+LIVE_URL = 'https://svod-be.roosterteeth.com/api/v1/livestreams'
 NUMBER_OF_EPISODES_PER_PAGE = '30'
 ROOSTERTEETH_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/rooster-teeth/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
 ACHIEVEMENTHUNTER_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/achievement-hunter/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
