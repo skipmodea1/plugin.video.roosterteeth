@@ -51,7 +51,7 @@ class Main(object):
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30302))
         is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-rt.png')})
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
@@ -64,7 +64,7 @@ class Main(object):
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30301))
         is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-rt.png')})
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
@@ -77,7 +77,7 @@ class Main(object):
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30303))
         is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-ah.png')})
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
@@ -90,7 +90,7 @@ class Main(object):
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30305))
         is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-fh.png')})
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
@@ -103,7 +103,7 @@ class Main(object):
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30315))
         is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-ig.png')})
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
@@ -116,7 +116,7 @@ class Main(object):
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30307))
         is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-sa.png')})
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
@@ -129,7 +129,7 @@ class Main(object):
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30311))
         is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-sp7.png')})
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
@@ -142,7 +142,7 @@ class Main(object):
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30309))
         is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-cc.png')})
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
@@ -155,7 +155,7 @@ class Main(object):
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30313))
         is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-ga.png')})
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
@@ -168,7 +168,7 @@ class Main(object):
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30317))
         is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-jtm.png')})
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
@@ -181,7 +181,7 @@ class Main(object):
         url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
         list_item = xbmcgui.ListItem(LANGUAGE(30319))
         is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-kf.png')})
         list_item.setProperty('IsPlayable', 'false')
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
