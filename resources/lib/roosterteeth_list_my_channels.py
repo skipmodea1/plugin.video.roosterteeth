@@ -172,7 +172,7 @@ class Main(object):
                                 {"title": title, "studio": studio, "mediatype": "video",
                                 "plot": plot, "duration": duration_in_seconds, "dateadded": date_formatted})
                 list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
-                                'fanart':thumbnail_url})
+                             'fanart': os.path.join(IMAGES_PATH, 'fanart-' + channel_slug + '.png')})
                 list_item.setProperty('IsPlayable', 'true')
 
                 # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs
@@ -193,7 +193,7 @@ class Main(object):
         # Large lists and/or slower systems benefit from adding all items at once via addDirectoryItems
         # instead of adding one by ove via addDirectoryItem.
         xbmcplugin.addDirectoryItems(self.plugin_handle, listing, len(listing))
-        # Disable sorting
+        # Sort by date
         xbmcplugin.addSortMethod(handle=self.plugin_handle, sortMethod=xbmcplugin.SORT_METHOD_DATEADDED)
         # Finish creating a virtual folder.
         xbmcplugin.endOfDirectory(self.plugin_handle)
