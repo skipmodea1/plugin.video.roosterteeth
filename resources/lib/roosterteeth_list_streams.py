@@ -111,7 +111,7 @@ class Main(object):
                                 {"title": title, "studio": studio, "mediatype": "video",
                                 "plot": plot})
                 list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
-                                'fanart': os.path.join(IMAGES_PATH, 'fanart-rt.png')})
+                                'fanart': os.path.join(IMAGES_PATH, 'fanart-rooster-teeth.png')})
                 list_item.setProperty('IsPlayable', 'true')
 
                 # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs
