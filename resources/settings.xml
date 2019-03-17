@@ -5,5 +5,20 @@
     <setting id="is_sponsor" 	      type="bool"   label="30015" 											        default="false"/>
     <setting id="username" 	     	  type="text"   label="30016" 											        default="" 							  enable="eq(-1,true)"/>
     <setting id="password" 		      type="text"   label="30017" 											        default="" 			option="hidden"   enable="eq(-2,true)"/>
+    <setting id="live_streams" type="bool" label="30324" default="true" />
+  </category>
+  <category label="My Channels">
+    <setting id="mychannels" type="bool" label="30323" default="false"/>
+    <setting type="sep"/>
+    <setting id="mychannels_rooster-teeth" type="bool" label="30301" default="false"/>
+    <setting id="mychannels_achievement-hunter" type="bool" label="30303" default="false"/>
+    <setting id="mychannels_funhaus" type="bool" label="30305" default="false"/>
+    <setting id="mychannels_screw-attack" type="bool" label="30307" default="false"/>
+    <setting id="mychannels_cow-chop" type="bool" label="30309" default="false"/>
+    <setting id="mychannels_sugar-pine-7" type="bool" label="30311" default="false"/>
+    <setting id="mychannels_game-attack" type="bool" label="30313" default="false"/>
+    <setting id="mychannels_inside-gaming" type="bool" label="30315" default="false"/>
+    <setting id="mychannels_jt-music" type="bool" label="30317" default="false"/>
+    <setting id="mychannels_kinda-funny" type="bool" label="30319" default="false"/>
   </category>
 </settings>

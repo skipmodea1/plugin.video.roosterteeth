@@ -13,7 +13,7 @@ import xbmcgui
 import xbmcplugin
 import os
 
-from roosterteeth_const import LANGUAGE, IMAGES_PATH, ROOSTERTEETH_SERIES_URL, \
+from roosterteeth_const import LANGUAGE, SETTINGS, IMAGES_PATH, ROOSTERTEETH_SERIES_URL, \
     ROOSTERTEETH_RECENTLY_ADDED_VIDEOS_SERIES_URL, ACHIEVEMENTHUNTER_RECENTLY_ADDED_VIDEOS_SERIES_URL, \
     FUNHAUS_RECENTLY_ADDED_VIDEOS_SERIES_URL, INSIDE_GAMING_RECENTLY_ADDED_VIDEOS_SERIES_URL, \
     SCREWATTACK__RECENTLY_ADDED_VIDEOS_SERIES_URL, SUGARPINE7__RECENTLY_ADDED_VIDEOS_SERIES_URL, \
@@ -32,16 +32,30 @@ class Main(object):
         self.plugin_handle = int(sys.argv[1])
 
         #
+        # My Channels (if enabled)
+        #
+        if SETTINGS.getSetting('mychannels') == "true":
+            parameters = {"action": "my-channels",
+                        "show_serie_name": "True", "next_page_possible": "False", "check_source_url": "True"}
+            url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
+            list_item = xbmcgui.ListItem(LANGUAGE(30322))
+            is_folder = True
+            list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-rt.png')})
+            list_item.setProperty('IsPlayable', 'false')
+            xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
+
+        #
         # Live
         #
-        parameters = {"action": "list-streams", "plugin_category": LANGUAGE(30321), "url": LIVE_URL,
-                      "show_serie_name": "True", "next_page_possible": "False", "check_source_url": "True"}
-        url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
-        list_item = xbmcgui.ListItem(LANGUAGE(30321))
-        is_folder = True
-        list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-rt.png')})
-        list_item.setProperty('IsPlayable', 'false')
-        xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
+        if SETTINGS.getSetting('live_streams') == "true":
+            parameters = {"action": "list-streams", "plugin_category": LANGUAGE(30321), "url": LIVE_URL,
+                        "show_serie_name": "True", "next_page_possible": "False", "check_source_url": "True"}
+            url = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
+            list_item = xbmcgui.ListItem(LANGUAGE(30321))
+            is_folder = True
+            list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-rt.png')})
+            list_item.setProperty('IsPlayable', 'false')
+            xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
         #
         # Series

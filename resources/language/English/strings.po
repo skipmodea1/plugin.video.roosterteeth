@@ -198,3 +198,15 @@ msgstr ""
 msgctxt "#30321"
 msgid "Live Streams"
 msgstr ""
+
+msgctxt "#30322"
+msgid "My Channels"
+msgstr ""
+
+msgctxt "#30323"
+msgid "Enable"
+msgstr ""
+
+msgctxt "#30324"
+msgid "Enable live streams"
+msgstr ""
