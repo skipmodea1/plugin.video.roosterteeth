@@ -132,11 +132,11 @@ msgid "Achievement Hunter Series"
 msgstr ""
 
 msgctxt "#30305"
-msgid "Fun Haus Recently Added Episodes"
+msgid "Funhaus Recently Added Episodes"
 msgstr ""
 
 msgctxt "#30306"
-msgid "Fun Haus Series"
+msgid "Funhaus Series"
 msgstr ""
 
 msgctxt "#30307"

@@ -70,7 +70,7 @@ class Main(object):
         xbmcplugin.addDirectoryItem(handle=self.plugin_handle, url=url, listitem=list_item, isFolder=is_folder)
 
         #
-        # Fun Haus Recently Added Episodes
+        # Funhaus Recently Added Episodes
         #
         parameters = {"action": "list-episodes", "plugin_category": LANGUAGE(30305),
                       "url": FUNHAUS_RECENTLY_ADDED_VIDEOS_SERIES_URL,
