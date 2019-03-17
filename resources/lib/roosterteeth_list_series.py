@@ -86,7 +86,7 @@ class Main(object):
             # remove '/series/' from the url
             serie_url = serie_url.replace('/series/', '/')
 
-            thumb = item['included']['images'][0]['attributes']['thumb']
+            thumb = item['included']['images'][0]['attributes']['medium']
 
             title = serie_title
 
@@ -97,7 +97,7 @@ class Main(object):
             # Add to list...
             list_item = xbmcgui.ListItem(label=title, thumbnailImage=thumbnail_url)
             list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
-                              'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+                              'fanart': os.path.join(IMAGES_PATH, 'fanart-rooster-teeth.png')})
             list_item.setProperty('IsPlayable', 'false')
 
             # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs
