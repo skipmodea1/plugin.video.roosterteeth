@@ -32,6 +32,7 @@ GAMEATTACK_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/
 JTMUSIC_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/jt-music/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
 KINDAFUNNY_RECENTLY_ADDED_VIDEOS_SERIES_URL = 'https://svod-be.roosterteeth.com/api/v1/channels/kinda-funny/episodes?per_page=' + NUMBER_OF_EPISODES_PER_PAGE
 SPONSOR_ONLY_VIDEO_TITLE_PREFIX = '* '
+INDEX_DOT_M3U8 = "index.m3u8"
 VQ4K = '4k'
 VQ1080P = '1080p'
 VQ720P = '720p'
@@ -39,8 +40,8 @@ VQ480P = '480p'
 VQ360P = '360p'
 VQ240P = '240p'
 HEADERS = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
-DATE = "2019-03-13"
-VERSION = "1.3.10"
+DATE = "2019-05-12"
+VERSION = "1.3.11-SNAPSHOT"
 
 
 if sys.version_info[0] > 2:
