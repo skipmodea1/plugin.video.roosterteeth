@@ -85,24 +85,19 @@ class Main(object):
             serie_url_middle_part = item['canonical_links']['self']
             serie_name = serie_url_middle_part.replace('/series/', '')
 
-            log("serie_url_middle_part", serie_url_middle_part)
-            log("serie_name", serie_name)
+            # log("serie_url_middle_part", serie_url_middle_part)
+            # log("serie_name", serie_name)
 
             # the serie url should become something like this:
             # https://svod-be.roosterteeth.com/api/v1/shows/nature-town/seasons?order=desc
-            serie_url = ROOSTERTEETH_SERIES_BASE_URL + '/' + serie_name + '/' \
-                        + 'seasons' + ROOSTERTEETH_GET_EVERYTHING_IN_ONE_PAGE_URL_PART + ROOSTERTEETH_ORDER_URL_PART
+            serie_url = ROOSTERTEETH_SERIES_BASE_URL + '/' + serie_name + '/' + 'seasons' \
+                        + ROOSTERTEETH_GET_EVERYTHING_IN_ONE_PAGE_URL_PART + ROOSTERTEETH_ORDER_URL_PART
 
             thumb = item['included']['images'][0]['attributes']['thumb']
 
             title = serie_title
 
             url = serie_url
-
-            # "https://svod-be.roosterteeth.com/api/v1/seasons/let-s-play-2019/episodes?per_page=24&order=desc&page=1"
-
-            # "https://svod-be.roosterteeth.com/api/v1/shows/cow-chop-gaming/seasons?order=desc
-            log("aaaa", url)
 
             thumbnail_url = thumb
 

@@ -93,13 +93,13 @@ class Main(object):
                 serie_url = serie_url[0: pos_of_questionmark]
                 serie_url = serie_url + ROOSTERTEETH_PAGE_URL_PART + ROOSTERTEETH_ORDER_URL_PART
 
+            log("serie_url", serie_url)
+
             thumb = self.thumbnail_url
 
             title = season_title
 
             url = serie_url
-
-            log("zzz", url)
 
             thumbnail_url = thumb
 
