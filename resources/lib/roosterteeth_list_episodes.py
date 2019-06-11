@@ -15,7 +15,7 @@ import xbmcgui
 import xbmcplugin
 import json
 
-from roosterteeth_const import IMAGES_PATH, HEADERS, LANGUAGE, convertToUnicodeString, log, \
+from roosterteeth_const import RESOURCES_PATH, HEADERS, LANGUAGE, convertToUnicodeString, log, \
     SPONSOR_ONLY_VIDEO_TITLE_PREFIX, ROOSTERTEETH_BASE_URL
 
 
@@ -36,8 +36,6 @@ class Main(object):
         self.url = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['url'][0]
         self.next_page_possible = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['next_page_possible'][0]
         self.show_serie_name = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['show_serie_name'][0]
-
-        log("self.url", self.url)
 
         # log("self.next_page_possible", self.next_page_possible)
 
@@ -155,12 +153,12 @@ class Main(object):
             studio = studio.capitalize()
 
             # Add to list...
-            list_item = xbmcgui.ListItem(label=title, thumbnailImage=thumbnail_url)
+            list_item = xbmcgui.ListItem(title)
             list_item.setInfo("video",
                              {"title": title, "studio": studio, "mediatype": "video",
                               "plot": plot, "duration": duration_in_seconds})
             list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
-                             'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+                             'fanart': os.path.join(RESOURCES_PATH, 'fanart-blur.jpg')})
             list_item.setProperty('IsPlayable', 'true')
 
             # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs
@@ -183,8 +181,9 @@ class Main(object):
         if self.page_number_next <= total_pages:
             # Next page entry
             if self.next_page_possible == 'True':
-                list_item = xbmcgui.ListItem(LANGUAGE(30200), thumbnailImage=os.path.join(IMAGES_PATH, 'next-page.png'))
-                list_item.setArt({'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+                list_item = xbmcgui.ListItem(LANGUAGE(30200))
+                list_item.setArt({'thumb': os.path.join(RESOURCES_PATH, 'next-page.png'),
+                                 'fanart': os.path.join(RESOURCES_PATH, 'fanart-blur.jpg')})
                 list_item.setProperty('IsPlayable', 'false')
                 parameters = {"action": "list-episodes", "url": str(self.next_url),
                               "next_page_possible": self.next_page_possible, "show_serie_name": self.show_serie_name}

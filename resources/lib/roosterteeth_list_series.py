@@ -16,7 +16,7 @@ import xbmcgui
 import xbmcplugin
 import json
 
-from roosterteeth_const import IMAGES_PATH, HEADERS, LANGUAGE, convertToUnicodeString, log, \
+from roosterteeth_const import RESOURCES_PATH, HEADERS, LANGUAGE, convertToUnicodeString, log, \
     ROOSTERTEETH_SERIES_BASE_URL, ROOSTERTEETH_GET_EVERYTHING_IN_ONE_PAGE_URL_PART, ROOSTERTEETH_ORDER_URL_PART
 
 
@@ -102,9 +102,9 @@ class Main(object):
             thumbnail_url = thumb
 
             # Add to list...
-            list_item = xbmcgui.ListItem(label=title, thumbnailImage=thumbnail_url)
+            list_item = xbmcgui.ListItem(title)
             list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
-                              'fanart': os.path.join(IMAGES_PATH, 'fanart-blur.jpg')})
+                              'fanart': os.path.join(RESOURCES_PATH, 'fanart-blur.jpg')})
             list_item.setProperty('IsPlayable', 'false')
 
             # let's remove any non-ascii characters from the title, to prevent errors with urllib.parse.parse_qs
