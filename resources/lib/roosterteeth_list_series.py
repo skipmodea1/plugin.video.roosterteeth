@@ -81,6 +81,10 @@ class Main(object):
         for item in json_data['data']:
             serie_title = item['attributes']['title']
 
+            summary = item['attributes']['summary']
+            last_episode_golive_at = item['attributes']['last_episode_golive_at']
+            last_episode_golive_at = last_episode_golive_at[0:10]
+
             # this part looks like this f.e.: /series/nature-town
             serie_url_middle_part = item['canonical_links']['self']
             serie_name = serie_url_middle_part.replace('/series/', '')
@@ -103,6 +107,9 @@ class Main(object):
 
             # Add to list...
             list_item = xbmcgui.ListItem(title)
+            list_item.setInfo("video",
+                             {"title": title, "mediatype": "video",
+                              "plot": summary + '\n' + LANGUAGE(30319) + ' ' + last_episode_golive_at})
             list_item.setArt({'thumb': thumbnail_url, 'icon': thumbnail_url,
                               'fanart': os.path.join(RESOURCES_PATH, 'fanart-blur.jpg')})
             list_item.setProperty('IsPlayable', 'false')
@@ -124,7 +131,7 @@ class Main(object):
         # Large lists and/or slower systems benefit from adding all items at once via addDirectoryItems
         # instead of adding one by ove via addDirectoryItem.
         xbmcplugin.addDirectoryItems(self.plugin_handle, listing, len(listing))
-        # Disable sorting
-        xbmcplugin.addSortMethod(handle=self.plugin_handle, sortMethod=xbmcplugin.SORT_METHOD_NONE)
+        # Set initial sorting
+        xbmcplugin.addSortMethod(handle=self.plugin_handle, sortMethod=xbmcplugin.SORT_METHOD_DATEADDED)
         # Finish creating a virtual folder.
         xbmcplugin.endOfDirectory(self.plugin_handle)
