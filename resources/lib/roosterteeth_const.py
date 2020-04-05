@@ -13,6 +13,7 @@ from bs4 import BeautifulSoup
 ADDON = "plugin.video.roosterteeth"
 SETTINGS = xbmcaddon.Addon(id=ADDON)
 LANGUAGE = SETTINGS.getLocalizedString
+XBMC_LANGUAGE = xbmc.getLocalizedString
 RESOURCES_PATH = os.path.join(xbmcaddon.Addon(id=ADDON).getAddonInfo('path'), 'resources')
 # This is a random number that identifies the client to the authorization website
 KODI_ROOSTERTEETH_ADDON_CLIENT_ID = '4338d2b4bdc8db1239360f28e72f0d9ddb1fd01e7a38fbb07b4b1f4ba4564cc5'
