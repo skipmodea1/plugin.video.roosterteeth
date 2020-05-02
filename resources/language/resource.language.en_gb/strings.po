@@ -84,11 +84,11 @@ msgid "the correct username and password. Or turn off the Rooster"
 msgstr ""
 
 msgctxt "#30103"
-msgid "Teeth First-switch if you haven't signed up to First."
+msgid "Teeth First-switch if you haven't signed up to First membership."
 msgstr ""
 
 msgctxt "#30104"
-msgid "Login Failed: %s."
+msgid "Login Failed."
 msgstr ""
 
 msgctxt "#30105"
@@ -113,6 +113,10 @@ msgstr ""
 
 msgctxt "#30110"
 msgid "Sorry. The video is not yet available for non-First members."
+msgstr ""
+
+msgctxt "#30111"
+msgid "In settings enter the correct username and password."
 msgstr ""
 
 msgctxt "#30120"

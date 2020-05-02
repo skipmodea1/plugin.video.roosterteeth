@@ -73,8 +73,8 @@ class Main(object):
         #
         title = xbmc.getInfoLabel("listitem.Title")
         # thumbnail_url = xbmc.getInfoImage("list_item.Thumb")
-        studio = xbmc.getInfoLabel("list_item.Studio")
-        mediatype = xbmc.getInfoLabel("list_item.Mediatype")
+        # studio = xbmc.getInfoLabel("list_item.Studio")
+        # mediatype = xbmc.getInfoLabel("list_item.Mediatype")
         # plot = xbmc.getInfoLabel("list_item.Plot")
         # genre = xbmc.getInfoLabel("list_item.Genre")
 
@@ -84,10 +84,10 @@ class Main(object):
             session = requests.Session()
 
             if self.is_first_member_only == "True":
-                must_login_first_membered_user = True
+                must_login_first_member_user = True
                 video_is_not_yet_available = False
             else:
-                # try and get the non-first_membered video without being logged in
+                # try and get the non-first_member video without being logged in
                 # get the page that contains the video
                 response = session.get(self.url, headers=HEADERS)
 
@@ -100,24 +100,24 @@ class Main(object):
                 # after logging in. One of the perks of being a first_member, i reckon. This is what you get back in that
                 # case: {"access":false,"message":"not yet available"}
                 if html_source.find("not yet available") >= 0:
-                    # let's try and get this non-first_membered video after login in the first_membered user then
-                    must_login_first_membered_user = True
+                    # let's try and get this non-first_member video after login in the first_member user then
+                    must_login_first_member_user = True
                     video_is_not_yet_available = True
                 else:
-                    must_login_first_membered_user = False
+                    must_login_first_member_user = False
                     video_is_not_yet_available = False
 
-            #log("must_login_first_membered_user", must_login_first_membered_user)
+            log("must_login_first_member_user", must_login_first_member_user)
 
             # login if needed
-            if must_login_first_membered_user:
+            if must_login_first_member_user:
                 # is the first_member switch in the settings of this addon turned on?
                 if self.IS_FIRST_MEMBER == 'true':
-                    # is it a first_membered video or not?
+                    # is it a first_member video or not?
                     if self.is_first_member_only == "True":
-                        log("logging in with user for this first_membered video", self.url)
+                        log("logging in with user for this first member video", self.url)
                     else:
-                        log("logging in with user for this non-first_membered video", self.url)
+                        log("logging in with user for this non-first member video", self.url)
 
                     # let's try and get authorization
                     try:
@@ -204,7 +204,10 @@ class Main(object):
                                 del dialog_wait
                             except:
                                 pass
-                            xbmcgui.Dialog().ok(LANGUAGE(30000), LANGUAGE(30104) % (convertToUnicodeString(response.status_code)))
+                            xbmcgui.Dialog().ok(LANGUAGE(30000), LANGUAGE(30104), LANGUAGE(30111))
+
+                            log('login was NOT successful!!, response.status_code: ', response.status_code)
+
                             exit(1)
 
                     except urllib.error.HTTPError as error:
