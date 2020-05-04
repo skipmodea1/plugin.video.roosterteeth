@@ -39,7 +39,7 @@ class Main(object):
         self.next_page_possible = urllib.parse.parse_qs(urllib.parse.urlparse(sys.argv[2]).query)['next_page_possible'][
             0]
 
-        # log("self.url", self.video_list_page_url)
+        log("self.url", self.video_list_page_url)
 
         #
         # Get the videos...
@@ -68,12 +68,6 @@ class Main(object):
 
         try:
             json_data = json.loads(html_source)
-
-            # for item in json_data['data']:
-            #     log("attribute1", item['canonical_links']['self'])
-            #     log("attribute2", item['attributes']['title'])
-            #     exit(1)
-
         except (ValueError, KeyError, TypeError):
             xbmcgui.Dialog().ok(LANGUAGE(30000), LANGUAGE(30109))
             exit(1)

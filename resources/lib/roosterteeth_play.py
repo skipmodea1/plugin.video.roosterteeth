@@ -437,7 +437,7 @@ class Main(object):
                 # let's convert the line to prevent python 2/3 troubles
                 line = convertToUnicodeString(line)
 
-                log("line", line)
+                # log("line", line)
 
                 if line.find(quality) >= 0:
                     video_url_part2 = line

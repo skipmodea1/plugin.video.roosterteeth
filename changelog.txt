@@ -1,4 +1,4 @@
-1.5 (2020-05-02)
+1.5.0 (2020-05-02)
 - dynamic channels instead of hardcoded channels
 - set initial sorting, changing the sort order in Kodi now seems to actually do something
 - added channel shows
