@@ -15,7 +15,7 @@ import xbmcgui
 import xbmcplugin
 import json
 
-from roosterteeth_const import RESOURCES_PATH, HEADERS, LANGUAGE, convertToUnicodeString, log, \
+from roosterteeth_const import RESOURCES_PATH, HEADERS, LANGUAGE, XBMC_LANGUAGE, convertToUnicodeString, log, \
     FIRST_MEMBER_ONLY_VIDEO_TITLE_PREFIX, ROOSTERTEETH_BASE_URL
 
 
@@ -172,7 +172,11 @@ class Main(object):
             plugin_url_with_parms = self.plugin_url + '?' + urllib.parse.urlencode(parameters)
             is_folder = False
             # Add refresh option to context menu
-            list_item.addContextMenuItems([('Refresh', 'Container.Refresh')])
+            list_item.addContextMenuItems([
+                ('Refresh', 'Container.Refresh'),
+                (XBMC_LANGUAGE(13347), 'Action(Queue)'),
+                (XBMC_LANGUAGE(10008), 'Action(PlayNext)'),
+            ])
             # Add our item to the listing as a 3-element tuple.
             listing.append((plugin_url_with_parms, list_item, is_folder))
 
